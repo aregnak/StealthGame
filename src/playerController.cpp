@@ -6,19 +6,19 @@
 
 PlayerController::PlayerController()
     : speed(5.f)
-    , jumpVelocity(14.5f)
+    , jumpVelocity(4.5f)
 {
 }
 
 void PlayerController::_physics_process(double delta)
 {
-    godot::Vector3 velocity = godot::Vector3();
+    godot::Vector3 velocity = get_velocity();
 
     godot::Input* input = godot::Input::get_singleton();
 
     if (!is_on_floor())
     {
-        velocity += get_gravity() * (float)delta;
+        velocity += get_gravity() * delta;
     }
 
     if (input->is_action_pressed("jump") && is_on_floor())

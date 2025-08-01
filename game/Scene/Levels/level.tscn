@@ -40,6 +40,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5495, 6.36032)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Environment/StaticBody3D"]
+use_collision = true
 size = Vector3(40, 0.5, 40)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D/CSGBox3D"]

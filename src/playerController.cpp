@@ -1,6 +1,5 @@
 #include "playerController.h"
 #include "godot_cpp/variant/vector3.hpp"
-
 #include <godot_cpp/classes/input.hpp>
 
 PlayerController::PlayerController()
@@ -14,6 +13,11 @@ void PlayerController::_physics_process(double delta)
     godot::Vector3 velocity = godot::Vector3();
 
     godot::Input* input = godot::Input::get_singleton();
+
+    if (!is_on_floor())
+    {
+        velocity += get_gravity() * delta;
+    }
 
     if (input->is_action_pressed("move_forward"))
     {

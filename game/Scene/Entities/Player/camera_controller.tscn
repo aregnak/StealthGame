@@ -1,4 +1,4 @@
-[gd_scene load_steps=0 format=3 uid="uid://bm5ipr5o6guls"]
+[gd_scene format=3 uid="uid://bm5ipr5o6guls"]
 
 [node name="CameraController" type="CameraController"]
 

@@ -29,9 +29,8 @@ float CameraController::get_sens() { return cameraSens; }
 
 void CameraController::_bind_methods()
 {
-    godot::ClassDB::bind_method(godot::D_METHOD("set_sensitivity", "value"),
-                                &CameraController::set_sens);
-    godot::ClassDB::bind_method(godot::D_METHOD("get_sensitivity"), &CameraController::get_sens);
+    godot::ClassDB::bind_method(godot::D_METHOD("set_sens", "value"), &CameraController::set_sens);
+    godot::ClassDB::bind_method(godot::D_METHOD("get_sens"), &CameraController::get_sens);
 
     ADD_PROPERTY(godot::PropertyInfo(godot::Variant::FLOAT, "camera_sens"), "set_sens", "get_sens");
 }

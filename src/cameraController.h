@@ -7,12 +7,16 @@
 class CameraController : public godot::Node3D
 {
     GDCLASS(CameraController, godot::Node3D);
+    float cameraSens;
 
 protected:
     static void _bind_methods();
 
 public:
     void _input(const godot::Ref<godot::InputEvent>& event) override;
+
+    void set_sens(float p_value);
+    float get_sens();
 
     CameraController();
     ~CameraController() = default;

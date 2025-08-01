@@ -6,6 +6,7 @@
 #include <godot_cpp/godot.hpp>
 
 #include "playerController.h"
+#include "cameraController.h"
 
 using namespace godot;
 
@@ -16,6 +17,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
         return;
     }
     GDREGISTER_CLASS(PlayerController);
+    GDREGISTER_CLASS(CameraController);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level)

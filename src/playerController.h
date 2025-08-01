@@ -13,7 +13,7 @@ protected:
     static void _bind_methods();
 
 public:
-    void _physics_process(double delta);
+    void _physics_process(double delta) override;
 
     PlayerController();
     ~PlayerController() = default;

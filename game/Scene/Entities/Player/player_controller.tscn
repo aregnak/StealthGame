@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy5q6omsm2dhk"]
 
-[ext_resource type="PackedScene" uid="uid://do2gl844cqpmh" path="res://Scene/Entities/Player/camera_controller.tscn" id="1_gqon7"]
+[ext_resource type="PackedScene" uid="uid://bm5ipr5o6guls" path="res://Scene/Entities/Player/camera_controller.tscn" id="1_gqon7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3yupo"]
 

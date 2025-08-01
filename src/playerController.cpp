@@ -1,10 +1,12 @@
 #include "playerController.h"
 #include "godot_cpp/variant/vector3.hpp"
+#include <godot_cpp/variant/transform3d.hpp>
 #include <godot_cpp/classes/input.hpp>
+#include <godot_cpp/core/math.hpp>
 
 PlayerController::PlayerController()
     : speed(5.f)
-    , jumpVelocity(4.5f)
+    , jumpVelocity(14.5f)
 {
 }
 
@@ -16,31 +18,32 @@ void PlayerController::_physics_process(double delta)
 
     if (!is_on_floor())
     {
-        velocity += get_gravity() * delta;
+        velocity += get_gravity() * (float)delta;
     }
 
-    if (input->is_action_pressed("move_forward"))
+    if (input->is_action_pressed("jump") && is_on_floor())
     {
-        velocity.z -= 1;
-    }
-    if (input->is_action_pressed("move_back"))
-    {
-        velocity.z += 1;
-    }
-    if (input->is_action_pressed("move_left"))
-    {
-        velocity.x -= 1;
-    }
-    if (input->is_action_pressed("move_right"))
-    {
-        velocity.x += 1;
-    }
-    if (input->is_action_pressed("jump"))
-    {
-        velocity.y += jumpVelocity;
+        velocity.y = jumpVelocity;
     }
 
-    velocity = velocity.normalized() * speed;
+    godot::Vector2 input_dir =
+        input->get_vector("move_left", "move_right", "move_forward", "move_back");
+
+    godot::Vector3 direction =
+        (get_transform().basis.xform(godot::Vector3(input_dir.x, 0, input_dir.y)).normalized());
+
+    if (direction != godot::Vector3())
+    {
+        velocity.x = direction.x * speed;
+        velocity.z = direction.z * speed;
+    }
+    else
+    {
+        velocity.x = godot::Math::move_toward(velocity.z, 0, speed);
+        velocity.z = godot::Math::move_toward(velocity.z, 0, speed);
+    }
+
+    //velocity = velocity.normalized();
 
     set_velocity(velocity);
     move_and_slide();

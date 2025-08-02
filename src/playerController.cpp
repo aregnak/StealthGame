@@ -56,8 +56,11 @@ void PlayerController::_physics_process(double delta)
     }
     else
     {
-        velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta));
-        velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta));
+        if (is_on_floor())
+        {
+            velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * 3.5f));
+            velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * 3.5f));
+        }
     }
 
     //velocity = velocity.normalized();

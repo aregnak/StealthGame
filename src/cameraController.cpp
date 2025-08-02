@@ -1,6 +1,7 @@
 #include "cameraController.h"
 
 #include <godot_cpp/core/class_db.hpp>
+#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
@@ -18,8 +19,9 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
         godot::Ref<godot::InputEventMouseMotion> mouse_event = event;
         godot::Vector3 rotation = get_rotation();
 
-        rotation.y += mouse_event->get_relative().x * cameraSens;
-        rotation.x += mouse_event->get_relative().y * cameraSens;
+        rotation.y -= mouse_event->get_relative().x * cameraSens;
+        rotation.x -= mouse_event->get_relative().y * cameraSens;
+        rotation.x = godot::CLAMP(rotation.x, -0.4, 0.2);
         set_rotation(rotation);
     }
 }

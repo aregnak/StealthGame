@@ -13,7 +13,12 @@ CameraController::CameraController()
     : cameraSens(0.01)
     , mouse_visible(true)
 {
-    // set_mouse_mode();
+}
+
+void CameraController::_ready()
+{
+    set_mouse_mode();
+    //
 }
 
 void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
@@ -50,12 +55,12 @@ void CameraController::set_mouse_mode()
     if (mouse_visible)
     {
         mouse_visible = false;
-        input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
+        input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
     }
     else if (!mouse_visible)
     {
         mouse_visible = true;
-        input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
+        input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
     }
 }
 
@@ -64,6 +69,7 @@ float CameraController::get_sens() { return cameraSens; }
 
 void CameraController::_bind_methods()
 {
+    godot::ClassDB::bind_method(godot::D_METHOD("ready"), &CameraController::_ready);
     godot::ClassDB::bind_method(godot::D_METHOD("set_sens", "value"), &CameraController::set_sens);
     godot::ClassDB::bind_method(godot::D_METHOD("get_sens"), &CameraController::get_sens);
 

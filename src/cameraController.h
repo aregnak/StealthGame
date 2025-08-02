@@ -15,10 +15,10 @@ protected:
     static void _bind_methods();
 
 public:
+    void _ready() override;
     void _input(const godot::Ref<godot::InputEvent>& event) override;
 
     void set_mouse_mode();
-
     void set_sens(float p_value);
     float get_sens();
 

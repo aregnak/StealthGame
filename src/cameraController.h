@@ -1,12 +1,12 @@
 #pragma once
 
-#include <godot_cpp/classes/node3d.hpp>
+#include <godot_cpp/classes/spring_arm3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/ref.hpp>
 
-class CameraController : public godot::Node3D
+class CameraController : public godot::SpringArm3D
 {
-    GDCLASS(CameraController, godot::Node3D);
+    GDCLASS(CameraController, godot::SpringArm3D);
 
     float cameraSens;
     bool mouse_captured;

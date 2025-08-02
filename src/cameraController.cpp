@@ -33,7 +33,7 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
 
             rotation.y -= mouse_event->get_relative().x * cameraSens;
             rotation.x -= mouse_event->get_relative().y * cameraSens;
-            rotation.x = godot::CLAMP(rotation.x, -0.4, 0.2);
+            rotation.x = godot::CLAMP(rotation.x, -1.2, 0.9);
             set_rotation(rotation);
         }
     }

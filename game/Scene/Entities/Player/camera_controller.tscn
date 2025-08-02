@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://bm5ipr5o6guls"]
+[gd_scene load_steps=2 format=3 uid="uid://bm5ipr5o6guls"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sppja"]
 
 [node name="CameraController" type="CameraController"]
+shape = SubResource("SphereShape3D_sppja")
+spring_length = 6.5
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.890213, 0.455545, 0, -0.455545, 0.890213, 0, 2.69618, 4.724)

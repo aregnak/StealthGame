@@ -11,8 +11,9 @@
 
 CameraController::CameraController()
     : cameraSens(0.01)
-    , mouse_visible(false)
+    , mouse_visible(true)
 {
+    // set_mouse_mode();
 }
 
 void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
@@ -38,18 +39,23 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
         godot::Ref<godot::InputEventKey> inputKey = event;
         if (inputKey->is_action_pressed("mouse_mode"))
         {
-            godot::Input* input = godot::Input::get_singleton();
-            if (mouse_visible)
-            {
-                mouse_visible = false;
-                input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
-            }
-            else
-            {
-                mouse_visible = true;
-                input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
-            }
+            set_mouse_mode();
         }
+    }
+}
+
+void CameraController::set_mouse_mode()
+{
+    godot::Input* input = godot::Input::get_singleton();
+    if (mouse_visible)
+    {
+        mouse_visible = false;
+        input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
+    }
+    else if (!mouse_visible)
+    {
+        mouse_visible = true;
+        input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
     }
 }
 

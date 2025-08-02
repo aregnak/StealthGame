@@ -5,6 +5,8 @@
 [node name="FPSCounter" type="CanvasLayer"]
 
 [node name="FPS" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 11.0
+offset_top = 614.0
+offset_right = 51.0
+offset_bottom = 637.0
 script = ExtResource("1_orfse")

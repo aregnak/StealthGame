@@ -15,6 +15,6 @@ public partial class Fps : Label
 	{
 		var FPS = Engine.GetFramesPerSecond();
 
-		Text = "FPS: " + FPS.ToString();
+		Text = FPS.ToString();
 	}
 }

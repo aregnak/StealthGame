@@ -9,7 +9,7 @@ class CameraController : public godot::Node3D
     GDCLASS(CameraController, godot::Node3D);
 
     float cameraSens;
-    bool mouse_visible;
+    bool mouse_captured;
 
 protected:
     static void _bind_methods();

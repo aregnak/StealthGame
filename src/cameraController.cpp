@@ -11,7 +11,7 @@
 
 CameraController::CameraController()
     : cameraSens(0.01)
-    , mouse_visible(true)
+    , mouse_captured(true)
 {
 }
 
@@ -26,7 +26,7 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
     // Mouse look controls
     if (event->is_class("InputEventMouseMotion"))
     {
-        if (!mouse_visible)
+        if (!mouse_captured)
         {
             godot::Ref<godot::InputEventMouseMotion> mouse_event = event;
             godot::Vector3 rotation = get_rotation();
@@ -52,14 +52,14 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
 void CameraController::set_mouse_mode()
 {
     godot::Input* input = godot::Input::get_singleton();
-    if (mouse_visible)
+    if (mouse_captured)
     {
-        mouse_visible = false;
+        mouse_captured = false;
         input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
     }
-    else if (!mouse_visible)
+    else if (!mouse_captured)
     {
-        mouse_visible = true;
+        mouse_captured = true;
         input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
     }
 }

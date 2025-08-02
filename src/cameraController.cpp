@@ -3,26 +3,53 @@
 #include <godot_cpp/core/class_db.hpp>
 #include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/vector3.hpp"
+#include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
 #include <godot_cpp/classes/ref.hpp>
+#include <godot_cpp/classes/input_event_key.hpp>
 
 CameraController::CameraController()
     : cameraSens(0.01)
+    , mouse_visible(false)
 {
 }
 
 void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
 {
+    // Mouse look controls
     if (event->is_class("InputEventMouseMotion"))
     {
-        godot::Ref<godot::InputEventMouseMotion> mouse_event = event;
-        godot::Vector3 rotation = get_rotation();
+        if (!mouse_visible)
+        {
+            godot::Ref<godot::InputEventMouseMotion> mouse_event = event;
+            godot::Vector3 rotation = get_rotation();
 
-        rotation.y -= mouse_event->get_relative().x * cameraSens;
-        rotation.x -= mouse_event->get_relative().y * cameraSens;
-        rotation.x = godot::CLAMP(rotation.x, -0.4, 0.2);
-        set_rotation(rotation);
+            rotation.y -= mouse_event->get_relative().x * cameraSens;
+            rotation.x -= mouse_event->get_relative().y * cameraSens;
+            rotation.x = godot::CLAMP(rotation.x, -0.4, 0.2);
+            set_rotation(rotation);
+        }
+    }
+
+    // Mouse mode controls
+    if (event->is_class("InputEventKey"))
+    {
+        godot::Ref<godot::InputEventKey> inputKey = event;
+        if (inputKey->is_action_pressed("mouse_mode"))
+        {
+            godot::Input* input = godot::Input::get_singleton();
+            if (mouse_visible)
+            {
+                mouse_visible = false;
+                input->set_mouse_mode(input->MOUSE_MODE_CAPTURED);
+            }
+            else
+            {
+                mouse_visible = true;
+                input->set_mouse_mode(input->MOUSE_MODE_VISIBLE);
+            }
+        }
     }
 }
 

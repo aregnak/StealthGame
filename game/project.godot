@@ -12,8 +12,12 @@ config_version=5
 
 config/name="StealthGame"
 run/main_scene="uid://cksbfyr4mqgyj"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/vsync/vsync_mode=0
 
 [dotnet]
 

@@ -8,10 +8,11 @@
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/classes/input_event_key.hpp>
+#include <godot_cpp/godot.hpp>
 
 CameraController::CameraController()
     : cameraSens(0.003)
-    , mouse_captured(true)
+    , mouse_captured(false)
 {
 }
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cksbfyr4mqgyj"]
+[gd_scene load_steps=7 format=3 uid="uid://cksbfyr4mqgyj"]
 
 [ext_resource type="PackedScene" uid="uid://cy5q6omsm2dhk" path="res://Scene/Entities/Player/player_controller.tscn" id="1_s80kh"]
+[ext_resource type="PackedScene" uid="uid://dcls85e8lu4rb" path="res://Scene/Levels/fps_counter.tscn" id="2_a2nb1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m8viu"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -45,3 +46,5 @@ size = Vector3(40, 0.5, 40)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045557, -5.96046e-08, -0.0168819)
 shape = SubResource("BoxShape3D_s80kh")
+
+[node name="FPSCounter" parent="." instance=ExtResource("2_a2nb1")]

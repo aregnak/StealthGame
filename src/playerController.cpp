@@ -10,6 +10,15 @@ PlayerController::PlayerController()
 {
 }
 
+void PlayerController::_ready()
+{
+    camera = get_node<CameraController>("CameraController");
+    if (!camera)
+    {
+        godot::UtilityFunctions::printerr("CameraController not found!");
+    }
+}
+
 void PlayerController::_physics_process(double delta)
 {
     godot::Vector3 velocity = get_velocity();
@@ -27,7 +36,8 @@ void PlayerController::_physics_process(double delta)
     }
 
     godot::Vector2 input_dir =
-        input->get_vector("move_left", "move_right", "move_forward", "move_back");
+        input->get_vector("move_left", "move_right", "move_forward", "move_back")
+            .rotated(-camera->get_global_rotation().y);
 
     godot::Vector3 direction =
         (get_transform().basis.xform(godot::Vector3(input_dir.x, 0, input_dir.y)).normalized());

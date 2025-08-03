@@ -8,6 +8,8 @@
 PlayerController::PlayerController()
     : speed(5.f)
     , jumpVelocity(4.5f)
+    , ground_friction(3.5f)
+    , air_friction(1.f)
 {
 }
 
@@ -56,11 +58,19 @@ void PlayerController::_physics_process(double delta)
     }
     else
     {
+        float friction = 0;
+
         if (is_on_floor())
         {
-            velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * 3.5f));
-            velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * 3.5f));
+            friction = ground_friction;
         }
+        else
+        {
+            friction = air_friction;
+        }
+
+        velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));
+        velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
     }
 
     //velocity = velocity.normalized();

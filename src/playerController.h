@@ -12,6 +12,9 @@ class PlayerController : public godot::CharacterBody3D
     const float speed;
     const float jumpVelocity;
 
+    const float ground_friction;
+    const float air_friction;
+
 protected:
     static void _bind_methods();
 

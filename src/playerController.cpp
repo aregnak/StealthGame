@@ -1,4 +1,5 @@
 #include "playerController.h"
+#include <godot_cpp/core/math.hpp>
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/variant/transform3d.hpp>
@@ -19,8 +20,7 @@ void PlayerController::_ready()
 
     player_skin = get_node<godot::Node3D>("PlayerSkin");
 
-    godot::AnimationPlayer* anim_player =
-        player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
+    anim_player = player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -56,6 +56,19 @@ void PlayerController::_physics_process(double delta)
 
         velocity.x = vel2d.x;
         velocity.z = vel2d.y;
+        anim_player->play("Running_A");
+
+        if (direction != godot::Vector3())
+        {
+            // Get the angle to rotate on the Y-axis
+            float target_yaw = godot::Math::atan2(direction.x, direction.z);
+
+            godot::Vector3 current_rotation =
+                player_skin->get_rotation(); // Euler angles in radians
+            current_rotation.y = target_yaw;
+
+            player_skin->set_rotation(current_rotation);
+        }
     }
     else
     {
@@ -72,6 +85,7 @@ void PlayerController::_physics_process(double delta)
 
         velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
+        anim_player->play("Idle");
     }
 
     //velocity = velocity.normalized();

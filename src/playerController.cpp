@@ -16,10 +16,11 @@ PlayerController::PlayerController()
 void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
-    if (!camera)
-    {
-        godot::UtilityFunctions::printerr("CameraController not found!");
-    }
+
+    player_skin = get_node<godot::Node3D>("PlayerSkin");
+
+    godot::AnimationPlayer* anim_player =
+        player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -58,7 +59,7 @@ void PlayerController::_physics_process(double delta)
     }
     else
     {
-        float friction = 0;
+        float friction = 1.f;
 
         if (is_on_floor())
         {

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <godot_cpp/classes/character_body3d.hpp>
+#include <godot_cpp/classes/node3d.hpp>
+#include <godot_cpp/classes/animation_player.hpp>
 #include "cameraController.h"
 
 class PlayerController : public godot::CharacterBody3D
@@ -8,6 +10,8 @@ class PlayerController : public godot::CharacterBody3D
     GDCLASS(PlayerController, godot::CharacterBody3D);
 
     CameraController* camera = nullptr;
+    godot::Node3D* player_skin = nullptr;
+    godot::AnimationPlayer* anim_player = nullptr;
 
     const float speed;
     const float jumpVelocity;

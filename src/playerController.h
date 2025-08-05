@@ -14,7 +14,7 @@ class PlayerController : public godot::CharacterBody3D
     godot::AnimationPlayer* anim_player = nullptr;
 
     const float speed;
-    const float jumpVelocity;
+    const float jump_velocity;
 
     const float ground_friction;
     const float air_friction;

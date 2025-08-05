@@ -8,7 +8,7 @@
 
 PlayerController::PlayerController()
     : speed(5.f)
-    , jumpVelocity(4.5f)
+    , jump_velocity(4.5f)
     , ground_friction(3.5f)
     , air_friction(1.f)
 {
@@ -36,7 +36,7 @@ void PlayerController::_physics_process(double delta)
 
     if (input->is_action_pressed("jump") && is_on_floor())
     {
-        velocity.y = jumpVelocity;
+        velocity.y = jump_velocity;
     }
 
     godot::Vector2 input_dir =

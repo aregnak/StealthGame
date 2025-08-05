@@ -21,6 +21,10 @@ void PlayerController::_ready()
     player_skin = get_node<godot::Node3D>("PlayerSkin");
 
     anim_player = player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
+
+    anim_tree = get_node<godot::AnimationTree>("PlayerSkin/AnimationTree");
+    anim_tree->set_active(true);
+    playback = anim_tree->get("parameters/playback");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -56,7 +60,8 @@ void PlayerController::_physics_process(double delta)
 
         velocity.x = vel2d.x;
         velocity.z = vel2d.y;
-        anim_player->play("Running_A");
+        // anim_player->play("Running_A");
+        playback->travel("Running_A");
 
         if (direction != godot::Vector3())
         {
@@ -80,7 +85,8 @@ void PlayerController::_physics_process(double delta)
         if (is_on_floor())
         {
             friction = ground_friction;
-            anim_player->play("Idle");
+            // anim_player->play("Idle");
+            playback->travel("Idle");
         }
         else
         {

@@ -8,7 +8,7 @@ class CameraController : public godot::SpringArm3D
 {
     GDCLASS(CameraController, godot::SpringArm3D);
 
-    float cameraSens;
+    float camera_sens;
     bool mouse_captured;
 
 protected:

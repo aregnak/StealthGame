@@ -10,7 +10,7 @@
 #include <godot_cpp/classes/input_event_key.hpp>
 
 CameraController::CameraController()
-    : cameraSens(0.003)
+    : camera_sens(0.003)
     , mouse_captured(false)
 {
 }
@@ -31,8 +31,8 @@ void CameraController::_input(const godot::Ref<godot::InputEvent>& event)
             godot::Ref<godot::InputEventMouseMotion> mouse_event = event;
             godot::Vector3 rotation = get_rotation();
 
-            rotation.y -= mouse_event->get_relative().x * cameraSens;
-            rotation.x -= mouse_event->get_relative().y * cameraSens;
+            rotation.y -= mouse_event->get_relative().x * camera_sens;
+            rotation.x -= mouse_event->get_relative().y * camera_sens;
             rotation.x = godot::CLAMP(rotation.x, -1.2, 0.9);
             set_rotation(rotation);
         }
@@ -64,8 +64,8 @@ void CameraController::set_mouse_mode()
     }
 }
 
-void CameraController::set_sens(float p_value) { cameraSens = p_value; }
-float CameraController::get_sens() { return cameraSens; }
+void CameraController::set_sens(float p_value) { camera_sens = p_value; }
+float CameraController::get_sens() { return camera_sens; }
 
 void CameraController::_bind_methods()
 {

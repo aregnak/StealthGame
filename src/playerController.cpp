@@ -34,7 +34,7 @@ void PlayerController::_physics_process(double delta)
         velocity += get_gravity() * delta;
     }
 
-    if (input->is_action_pressed("jump") && is_on_floor())
+    if (input->is_action_just_pressed("jump") && is_on_floor())
     {
         velocity.y = jump_velocity;
     }
@@ -80,15 +80,16 @@ void PlayerController::_physics_process(double delta)
         if (is_on_floor())
         {
             friction = ground_friction;
+            anim_player->play("Idle");
         }
         else
         {
             friction = air_friction;
+            anim_player->play("Jump_Full_Short");
         }
 
         velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
-        anim_player->play("Idle");
     }
 
     //velocity = velocity.normalized();

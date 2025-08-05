@@ -60,8 +60,6 @@ void PlayerController::_physics_process(double delta)
 
         velocity.x = vel2d.x;
         velocity.z = vel2d.y;
-        // anim_player->play("Running_A");
-        playback->travel("Running_A");
 
         if (direction != godot::Vector3())
         {
@@ -77,6 +75,11 @@ void PlayerController::_physics_process(double delta)
 
             player_skin->set_rotation(good_direction);
         }
+
+        if (is_on_floor())
+        {
+            playback->travel("Running_A");
+        }
     }
     else
     {
@@ -91,7 +94,7 @@ void PlayerController::_physics_process(double delta)
         else
         {
             friction = air_friction;
-            anim_player->play("Jump_Full_Short");
+            playback->travel("Jump_Idle");
         }
 
         velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));

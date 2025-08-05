@@ -61,13 +61,16 @@ void PlayerController::_physics_process(double delta)
         if (direction != godot::Vector3())
         {
             // Get the angle to rotate on the Y-axis
-            float target_yaw = godot::Math::atan2(direction.x, direction.z);
+            double target_yaw = godot::Math::atan2(direction.x, direction.z);
 
-            godot::Vector3 current_rotation =
-                player_skin->get_rotation(); // Euler angles in radians
-            current_rotation.y = target_yaw;
+            double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
 
-            player_skin->set_rotation(current_rotation);
+            current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 10);
+
+            godot::Vector3 good_direction;
+            good_direction.y = current_rotation;
+
+            player_skin->set_rotation(good_direction);
         }
     }
     else

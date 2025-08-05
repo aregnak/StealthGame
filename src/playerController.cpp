@@ -52,7 +52,9 @@ void PlayerController::_physics_process(double delta)
 
     godot::Vector2 vel2d(velocity.x, velocity.z);
 
-    if (direction != godot::Vector3())
+    bool is_moving = direction != godot::Vector3();
+
+    if (is_moving)
     {
         vel2d.x += direction.x * speed;
         vel2d.y += direction.z * speed;
@@ -61,44 +63,37 @@ void PlayerController::_physics_process(double delta)
         velocity.x = vel2d.x;
         velocity.z = vel2d.y;
 
-        if (direction != godot::Vector3())
-        {
-            // Get the angle to rotate on the Y-axis
-            double target_yaw = godot::Math::atan2(direction.x, direction.z);
+        // Get the angle to rotate on the Y-axis
+        double target_yaw = godot::Math::atan2(direction.x, direction.z);
 
-            double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
+        double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
 
-            current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 10);
+        current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
 
-            godot::Vector3 good_direction;
-            good_direction.y = current_rotation;
+        godot::Vector3 good_direction;
+        good_direction.y = current_rotation;
 
-            player_skin->set_rotation(good_direction);
-        }
-
-        if (is_on_floor())
-        {
-            playback->travel("Running_A");
-        }
+        player_skin->set_rotation(good_direction);
     }
     else
     {
-        float friction = 1.f;
-
-        if (is_on_floor())
-        {
-            friction = ground_friction;
-            // anim_player->play("Idle");
-            playback->travel("Idle");
-        }
-        else
-        {
-            friction = air_friction;
-            playback->travel("Jump_Idle");
-        }
-
+        float friction = is_on_floor() ? ground_friction : air_friction;
         velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
+    }
+
+    // Animation logic
+    if (!is_on_floor())
+    {
+        playback->travel("Jump_Idle");
+    }
+    else if (is_moving)
+    {
+        playback->travel("Running_A");
+    }
+    else
+    {
+        playback->travel("Idle");
     }
 
     //velocity = velocity.normalized();

@@ -24,7 +24,7 @@ void PlayerController::_ready()
 
     anim_tree = get_node<godot::AnimationTree>("PlayerSkin/AnimationTree");
     anim_tree->set_active(true);
-    playback = anim_tree->get("parameters/playback");
+    playback = anim_tree->get("parameters/MoveStateMachine/playback");
 }
 
 void PlayerController::_physics_process(double delta)

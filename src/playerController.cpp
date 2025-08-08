@@ -24,7 +24,7 @@ void PlayerController::_ready()
 
     anim_tree = get_node<godot::AnimationTree>("PlayerSkin/AnimationTree");
     anim_tree->set_active(true);
-    playback = anim_tree->get("parameters/MoveStateMachine/playback");
+    move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -85,15 +85,15 @@ void PlayerController::_physics_process(double delta)
     // Animation logic
     if (!is_on_floor())
     {
-        playback->travel("Jump_Idle");
+        move_state_machine->travel("Jump_Idle");
     }
     else if (is_moving)
     {
-        playback->travel("Running_A");
+        move_state_machine->travel("Running_A");
     }
     else
     {
-        playback->travel("Idle");
+        move_state_machine->travel("Idle");
     }
 
     //velocity = velocity.normalized();

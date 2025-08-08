@@ -15,7 +15,7 @@ class PlayerController : public godot::CharacterBody3D
     godot::Node3D* player_skin = nullptr;
     godot::AnimationPlayer* anim_player = nullptr;
     godot::AnimationTree* anim_tree = nullptr;
-    godot::Ref<godot::AnimationNodeStateMachinePlayback> playback;
+    godot::Ref<godot::AnimationNodeStateMachinePlayback> move_state_machine;
 
     const float speed;
     const float jump_velocity;

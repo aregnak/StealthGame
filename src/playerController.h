@@ -30,6 +30,8 @@ public:
     void _ready() override;
     void _physics_process(double delta) override;
 
+    void attack_anim();
+
     PlayerController();
     ~PlayerController() = default;
 };

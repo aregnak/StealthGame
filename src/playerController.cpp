@@ -18,6 +18,8 @@ void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
 
+    // These should be under another class, or at least another file
+    // TODO: cleanup these variables and anim functions.
     player_skin = get_node<godot::Node3D>("PlayerSkin");
 
     anim_player = player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
@@ -33,6 +35,7 @@ void PlayerController::_physics_process(double delta)
 
     godot::Input* input = godot::Input::get_singleton();
 
+    // Jump logic
     if (!is_on_floor())
     {
         velocity += get_gravity() * delta;
@@ -43,6 +46,7 @@ void PlayerController::_physics_process(double delta)
         velocity.y = jump_velocity;
     }
 
+    // Movement logic
     godot::Vector2 input_dir =
         input->get_vector("move_left", "move_right", "move_forward", "move_back")
             .rotated(-camera->get_global_rotation().y);
@@ -50,6 +54,7 @@ void PlayerController::_physics_process(double delta)
     godot::Vector3 direction =
         (get_transform().basis.xform(godot::Vector3(input_dir.x, 0, input_dir.y)).normalized());
 
+    // Movement "gliding" effect vector, not needed if you want stiff movement
     godot::Vector2 vel2d(velocity.x, velocity.z);
 
     bool is_moving = direction != godot::Vector3();
@@ -95,8 +100,6 @@ void PlayerController::_physics_process(double delta)
     {
         move_state_machine->travel("Idle");
     }
-
-    //velocity = velocity.normalized();
 
     set_velocity(velocity);
     move_and_slide();

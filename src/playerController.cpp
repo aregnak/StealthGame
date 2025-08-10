@@ -27,6 +27,7 @@ void PlayerController::_ready()
     anim_tree = get_node<godot::AnimationTree>("PlayerSkin/AnimationTree");
     anim_tree->set_active(true);
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
+    attack_one_shot = anim_tree->get("parameters/AttackOneShot");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -87,6 +88,11 @@ void PlayerController::_physics_process(double delta)
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
     }
 
+    if (input->is_action_just_pressed("attack"))
+    {
+        attack_anim();
+    }
+
     // Animation logic
     if (!is_on_floor())
     {
@@ -106,3 +112,9 @@ void PlayerController::_physics_process(double delta)
 }
 
 void PlayerController::_bind_methods() {}
+
+void PlayerController::attack_anim()
+{
+    anim_tree->set("parameters/AttackOneShot/request",
+                   (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
+}

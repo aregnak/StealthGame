@@ -26,6 +26,8 @@ class PlayerController : public godot::CharacterBody3D
     const float ground_friction;
     const float air_friction;
 
+    bool is_attacking;
+
 protected:
     static void _bind_methods();
 
@@ -34,6 +36,7 @@ public:
     void _physics_process(double delta) override;
 
     void attack_anim();
+    void attacking();
 
     PlayerController();
     ~PlayerController() = default;

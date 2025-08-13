@@ -91,11 +91,7 @@ void PlayerController::_physics_process(double delta)
 
     if (input->is_action_just_pressed("attack"))
     {
-        if (!is_attacking)
-        {
-            is_attacking = true;
-            attack_anim();
-        }
+        attack_anim();
     }
 
     // Animation logic
@@ -122,6 +118,10 @@ void PlayerController::attack_anim()
 {
     anim_tree->set("parameters/AttackOneShot/request",
                    (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
+}
 
-    is_attacking = false;
+void PlayerController::attacking()
+{
+    is_attacking = true;
+    //
 }

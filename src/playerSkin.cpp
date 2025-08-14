@@ -14,14 +14,26 @@ void PlayerSkin::_ready()
 
     anim_tree = get_node<godot::AnimationTree>("AnimationTree");
     anim_tree->set_active(true);
+
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
+
     attack_one_shot = anim_tree->get("parameters/AttackOneShot");
+    attack_state_machine = anim_tree->get("parameters/AttackStateMachine/playback");
+    second_attack_timer = get_node<godot::Timer>("SecondAttackTimer");
 }
 
 void PlayerSkin::play_attack_anim()
 {
     if (!is_attacking)
     {
+        if (second_attack_timer->get_time_left() > 0)
+        {
+            attack_state_machine->travel("HSlice");
+        }
+        else
+        {
+            attack_state_machine->travel("Chop");
+        }
         anim_tree->set("parameters/AttackOneShot/request",
                        (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
     }

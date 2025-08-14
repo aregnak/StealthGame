@@ -15,6 +15,8 @@ class PlayerSkin : public godot::Node3D
     godot::Ref<godot::AnimationNodeStateMachinePlayback> move_state_machine;
     godot::Ref<godot::AnimationNodeOneShot> attack_one_shot;
 
+    bool is_attacking;
+
 protected:
     static void _bind_methods();
 
@@ -23,6 +25,8 @@ public:
 
     void play_attack_anim();
     void set_move_state(godot::StringName state);
+
+    void attacking(bool state);
 
     PlayerSkin();
     ~PlayerSkin() = default;

@@ -103,9 +103,3 @@ void PlayerController::_physics_process(double delta)
 }
 
 void PlayerController::_bind_methods() {}
-
-void PlayerController::attacking()
-{
-    is_attacking = true;
-    //
-}

@@ -3,6 +3,7 @@
 #include <godot_cpp/core/class_db.hpp>
 
 PlayerSkin::PlayerSkin()
+    : is_attacking(false)
 {
     //
 }
@@ -19,8 +20,11 @@ void PlayerSkin::_ready()
 
 void PlayerSkin::play_attack_anim()
 {
-    anim_tree->set("parameters/AttackOneShot/request",
-                   (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
+    if (!is_attacking)
+    {
+        anim_tree->set("parameters/AttackOneShot/request",
+                       (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
+    }
 }
 
 void PlayerSkin::set_move_state(godot::StringName state)
@@ -28,4 +32,16 @@ void PlayerSkin::set_move_state(godot::StringName state)
     move_state_machine->travel(state); //
 }
 
-void PlayerSkin::_bind_methods() {}
+void PlayerSkin::attacking(bool state)
+{
+    is_attacking = state;
+    //
+}
+
+void PlayerSkin::_bind_methods()
+{
+    godot::ClassDB::bind_method(godot::D_METHOD("play_attack_anim"), &PlayerSkin::play_attack_anim);
+    godot::ClassDB::bind_method(godot::D_METHOD("set_move_state", "state"),
+                                &PlayerSkin::set_move_state);
+    godot::ClassDB::bind_method(godot::D_METHOD("attacking", "state"), &PlayerSkin::attacking);
+}

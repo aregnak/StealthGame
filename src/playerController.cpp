@@ -18,17 +18,7 @@ PlayerController::PlayerController()
 void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
-
-    // These should be under another class, or at least another file
-    // TODO: cleanup these variables and anim functions.
-    player_skin = get_node<godot::Node3D>("PlayerSkin");
-
-    anim_player = player_skin->get_node<godot::AnimationPlayer>("AnimationPlayer");
-
-    anim_tree = get_node<godot::AnimationTree>("PlayerSkin/AnimationTree");
-    anim_tree->set_active(true);
-    move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
-    attack_one_shot = anim_tree->get("parameters/AttackOneShot");
+    player_skin = get_node<PlayerSkin>("PlayerSkin");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -73,14 +63,14 @@ void PlayerController::_physics_process(double delta)
         // Get the angle to rotate on the Y-axis
         double target_yaw = godot::Math::atan2(direction.x, direction.z);
 
-        double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
+        // double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
 
-        current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
+        // current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
 
         godot::Vector3 good_direction;
-        good_direction.y = current_rotation;
+        // good_direction.y = current_rotation;
 
-        player_skin->set_rotation(good_direction);
+        // player_skin->set_rotation(good_direction);
     }
     else
     {
@@ -95,18 +85,18 @@ void PlayerController::_physics_process(double delta)
     }
 
     // Animation logic
-    if (!is_on_floor())
-    {
-        move_state_machine->travel("Jump_Idle");
-    }
-    else if (is_moving)
-    {
-        move_state_machine->travel("Running_A");
-    }
-    else
-    {
-        move_state_machine->travel("Idle");
-    }
+    // if (!is_on_floor())
+    // {
+    //     move_state_machine->travel("Jump_Idle");
+    // }
+    // else if (is_moving)
+    // {
+    //     move_state_machine->travel("Running_A");
+    // }
+    // else
+    // {
+    //     move_state_machine->travel("Idle");
+    // }
 
     set_velocity(velocity);
     move_and_slide();
@@ -116,8 +106,8 @@ void PlayerController::_bind_methods() {}
 
 void PlayerController::attack_anim()
 {
-    anim_tree->set("parameters/AttackOneShot/request",
-                   (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
+    // anim_tree->set("parameters/AttackOneShot/request",
+    //                (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
 }
 
 void PlayerController::attacking()

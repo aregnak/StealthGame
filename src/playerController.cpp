@@ -18,7 +18,7 @@ PlayerController::PlayerController()
 void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
-    player_skin = get_node<PlayerSkin>("PlayerSkin");
+    player_skin = get_node<PlayerSkin>("PlayerSkin2");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -63,14 +63,14 @@ void PlayerController::_physics_process(double delta)
         // Get the angle to rotate on the Y-axis
         double target_yaw = godot::Math::atan2(direction.x, direction.z);
 
-        // double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
+        double current_rotation = player_skin->get_rotation().y; // Euler angles in radians
 
-        // current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
+        current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
 
         godot::Vector3 good_direction;
-        // good_direction.y = current_rotation;
+        good_direction.y = current_rotation;
 
-        // player_skin->set_rotation(good_direction);
+        player_skin->set_rotation(good_direction);
     }
     else
     {
@@ -81,34 +81,28 @@ void PlayerController::_physics_process(double delta)
 
     if (input->is_action_just_pressed("attack"))
     {
-        attack_anim();
+        player_skin->play_attack_anim();
     }
 
     // Animation logic
-    // if (!is_on_floor())
-    // {
-    //     move_state_machine->travel("Jump_Idle");
-    // }
-    // else if (is_moving)
-    // {
-    //     move_state_machine->travel("Running_A");
-    // }
-    // else
-    // {
-    //     move_state_machine->travel("Idle");
-    // }
+    if (!is_on_floor())
+    {
+        player_skin->set_move_state("Jump_Idle");
+    }
+    else if (is_moving)
+    {
+        player_skin->set_move_state("Running_A");
+    }
+    else
+    {
+        player_skin->set_move_state("Idle");
+    }
 
     set_velocity(velocity);
     move_and_slide();
 }
 
 void PlayerController::_bind_methods() {}
-
-void PlayerController::attack_anim()
-{
-    // anim_tree->set("parameters/AttackOneShot/request",
-    //                (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
-}
 
 void PlayerController::attacking()
 {

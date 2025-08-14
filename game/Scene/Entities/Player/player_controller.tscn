@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy5q6omsm2dhk"]
 
 [ext_resource type="PackedScene" uid="uid://bm5ipr5o6guls" path="res://Scene/Entities/Player/camera_controller.tscn" id="1_gqon7"]
-[ext_resource type="PackedScene" uid="uid://ukh8kskniq8e" path="res://Scene/Entities/Player/player_skin.tscn" id="2_rmukk"]
+[ext_resource type="PackedScene" uid="uid://5llauvl0ih6w" path="res://Scene/Entities/Player/player_skin2.tscn" id="2_rmukk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3yupo"]
 
@@ -12,5 +12,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_3yupo")
 
 [node name="CameraController" parent="." instance=ExtResource("1_gqon7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73711, 0)
 
-[node name="PlayerSkin" parent="." instance=ExtResource("2_rmukk")]
+[node name="PlayerSkin2" parent="." instance=ExtResource("2_rmukk")]

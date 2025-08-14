@@ -21,6 +21,9 @@ protected:
 public:
     void _ready() override;
 
+    void play_attack_anim();
+    void set_move_state(godot::StringName state);
+
     PlayerSkin();
     ~PlayerSkin() = default;
 };

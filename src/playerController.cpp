@@ -18,7 +18,7 @@ PlayerController::PlayerController()
 void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
-    player_skin = get_node<PlayerSkin>("PlayerSkin2");
+    player_skin = get_node<PlayerSkin>("PlayerSkin");
 }
 
 void PlayerController::_physics_process(double delta)

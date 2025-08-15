@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://dih354dky637e"]
+
+[ext_resource type="PackedScene" uid="uid://3xdq6vxcqn08" path="res://Assets/Enemies/gltf/Skeleton_Minion.glb" id="1_5mgdo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eu0g1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5mgdo"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mxx7s"]
+animation = &"Running_C"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ia3rd"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m3r08"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lgvfv"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8hbyp"]
+states/Idle/node = SubResource("AnimationNodeAnimation_5mgdo")
+states/Idle/position = Vector2(386, 100)
+states/Running/node = SubResource("AnimationNodeAnimation_mxx7s")
+states/Running/position = Vector2(621, 100)
+states/Start/position = Vector2(201, 100)
+transitions = ["Idle", "Running", SubResource("AnimationNodeStateMachineTransition_ia3rd"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_m3r08"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_lgvfv")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_406py"]
+graph_offset = Vector2(-563, 115)
+nodes/MovementStateMachine/node = SubResource("AnimationNodeStateMachine_8hbyp")
+nodes/MovementStateMachine/position = Vector2(-20, 140)
+node_connections = [&"output", 0, &"MovementStateMachine"]
+
+[node name="EnemyController" type="EnemyController"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_eu0g1")
+
+[node name="skin" parent="." instance=ExtResource("1_5mgdo")]
+
+[node name="AnimationTree" type="AnimationTree" parent="skin"]
+tree_root = SubResource("AnimationNodeBlendTree_406py")
+anim_player = NodePath("../AnimationPlayer")
+
+[editable path="skin"]

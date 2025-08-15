@@ -6,6 +6,10 @@ class EnemyController : public godot::CharacterBody3D
 {
     GDCLASS(EnemyController, godot::CharacterBody3D);
 
+    godot::Vector3 direction;
+
+    const float speed;
+
 protected:
     static void _bind_methods();
 

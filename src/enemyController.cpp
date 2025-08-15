@@ -1,4 +1,5 @@
 #include "enemyController.h"
+#include "godot_cpp/core/print_string.hpp"
 #include <godot_cpp/core/math.hpp>
 #include <godot_cpp/variant/vector2.hpp>
 #include <godot_cpp/variant/vector3.hpp>
@@ -33,6 +34,11 @@ void EnemyController::_physics_process(double delta)
         velocity += get_gravity() * delta;
     }
 
+    if (ray->is_colliding())
+    {
+        godot::print_line("Wall collision");
+    }
+
     double target_yaw = godot::Math::atan2(direction.x, direction.z);
     double current_rotation = enemy_skin->get_rotation().y; // Euler angles in radians
 
@@ -42,12 +48,9 @@ void EnemyController::_physics_process(double delta)
     good_direction.y = current_rotation;
 
     enemy_skin->set_rotation(good_direction);
-    // ray->set_rotation(good_direction);
-
-    if (ray->is_colliding())
-    {
-        enemy_skin->set_rotation(godot::Vector3(0, 180, 0));
-    }
+    godot::Vector3 ray_rotation = ray->get_rotation();
+    ray_rotation.y = current_rotation;
+    ray->set_rotation(ray_rotation);
 
     velocity.x = direction.x * speed;
     velocity.z = direction.z * speed;

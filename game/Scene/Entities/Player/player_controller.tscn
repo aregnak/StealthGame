@@ -13,5 +13,6 @@ shape = SubResource("CapsuleShape3D_3yupo")
 
 [node name="CameraController" parent="." instance=ExtResource("1_gqon7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73711, 0)
+collision_mask = 7
 
 [node name="PlayerSkin" parent="." instance=ExtResource("2_rmukk")]

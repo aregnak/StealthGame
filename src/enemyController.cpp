@@ -15,10 +15,12 @@ void EnemyController::_ready()
 {
     // Random direction for now
     // Will change to adapt to environment
-    direction = godot::UtilityFunctions::randf() < 0.5f ? godot::Vector3(-1, 0, 0)
-                                                        : godot::Vector3(1, 0, 0);
+    // direction = godot::UtilityFunctions::randf() < 0.5f ? godot::Vector3(-1, 0, 0)
+    //                                                     : godot::Vector3(1, 0, 0);
+    direction = godot::Vector3(0, 0, 0);
 
-    enemy_skin = get_node<godot::Node3D>("skin");
+    enemy_skin = get_node<godot::Node3D>("Skin");
+    ray = get_node<godot::RayCast3D>("Ray");
 }
 
 void EnemyController::_physics_process(double delta)
@@ -40,6 +42,12 @@ void EnemyController::_physics_process(double delta)
     good_direction.y = current_rotation;
 
     enemy_skin->set_rotation(good_direction);
+    // ray->set_rotation(good_direction);
+
+    if (ray->is_colliding())
+    {
+        enemy_skin->set_rotation(godot::Vector3(0, 180, 0));
+    }
 
     velocity.x = direction.x * speed;
     velocity.z = direction.z * speed;

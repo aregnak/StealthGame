@@ -13,8 +13,12 @@ EnemyController::EnemyController()
 
 void EnemyController::_ready()
 {
+    // Random direction for now
+    // Will change to adapt to environment
     direction = godot::UtilityFunctions::randf() < 0.5f ? godot::Vector3(-1, 0, 0)
                                                         : godot::Vector3(1, 0, 0);
+
+    enemy_skin = get_node<godot::Node3D>("skin");
 }
 
 void EnemyController::_physics_process(double delta)
@@ -26,6 +30,16 @@ void EnemyController::_physics_process(double delta)
     {
         velocity += get_gravity() * delta;
     }
+
+    double target_yaw = godot::Math::atan2(direction.x, direction.z);
+    double current_rotation = enemy_skin->get_rotation().y; // Euler angles in radians
+
+    current_rotation = godot::Math::lerp_angle(current_rotation, target_yaw, delta * 15);
+
+    godot::Vector3 good_direction;
+    good_direction.y = current_rotation;
+
+    enemy_skin->set_rotation(good_direction);
 
     velocity.x = direction.x * speed;
     velocity.z = direction.z * speed;

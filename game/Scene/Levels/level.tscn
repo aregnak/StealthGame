@@ -37,7 +37,8 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.513952, 0.000998165, -0.856441)
 
 [node name="EnemyController" parent="Entities" instance=ExtResource("2_61dc2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.35558, 0.716287, 4.54239)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0469, 0.350273, 4.54239)
+velocity = Vector3(0, 0, 0)
 
 [node name="Environment" type="Node3D" parent="."]
 

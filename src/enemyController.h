@@ -10,8 +10,8 @@ class EnemyController : public godot::CharacterBody3D
 
     godot::Node3D* enemy_skin = nullptr;
     godot::RayCast3D* ray = nullptr;
-
-    godot::Vector3 direction;
+    // Random direction for now
+    // Will change to adapt to environment
 
     const float speed;
 

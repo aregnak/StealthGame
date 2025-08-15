@@ -8,7 +8,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 
 EnemyController::EnemyController()
-    : speed(5.f)
+    : speed(4.f)
 {
 }
 

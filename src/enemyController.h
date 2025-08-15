@@ -13,7 +13,6 @@ class EnemyController : public godot::CharacterBody3D
 {
     GDCLASS(EnemyController, godot::CharacterBody3D);
 
-    godot::Node3D* skin = nullptr;
     godot::AnimationPlayer* anim_player = nullptr;
     godot::AnimationTree* anim_tree = nullptr;
     godot::Ref<godot::AnimationNodeStateMachinePlayback> move_state_machine;

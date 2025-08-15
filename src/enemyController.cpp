@@ -14,7 +14,6 @@ EnemyController::EnemyController()
 
 void EnemyController::_ready()
 {
-    skin = get_node<godot::Node3D>("Skin");
     anim_player = get_node<godot::AnimationPlayer>("Skin/AnimationPlayer");
     anim_tree = get_node<godot::AnimationTree>("Skin/AnimationTree");
     anim_tree->set_active(true);

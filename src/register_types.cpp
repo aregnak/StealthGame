@@ -5,9 +5,10 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
+#include "cameraController.h"
+#include "enemyController.h"
 #include "playerController.h"
 #include "playerSkin.h"
-#include "cameraController.h"
 
 using namespace godot;
 
@@ -17,9 +18,10 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
     {
         return;
     }
+    GDREGISTER_CLASS(CameraController);
+    GDREGISTER_CLASS(EnemyController);
     GDREGISTER_CLASS(PlayerController);
     GDREGISTER_CLASS(PlayerSkin);
-    GDREGISTER_CLASS(CameraController);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level)

@@ -9,6 +9,7 @@
 
 EnemyController::EnemyController()
     : speed(4.f)
+    , walk_speed(1.f)
 {
 }
 
@@ -70,15 +71,16 @@ void EnemyController::_physics_process(double delta)
     ray_rotation.y = rotation.y;
     ray->set_rotation(ray_rotation);
 
-    velocity.x = direction.x * speed;
-    velocity.z = direction.z * speed;
+    float current_speed = walk_speed;
+    velocity.x = direction.x * current_speed;
+    velocity.z = direction.z * current_speed;
 
     set_velocity(velocity);
     move_and_slide();
 
     if (direction != godot::Vector3())
     {
-        move_state_machine->travel("Running");
+        move_state_machine->travel("Walking");
     }
     else
     {

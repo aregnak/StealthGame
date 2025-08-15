@@ -22,6 +22,7 @@ class EnemyController : public godot::CharacterBody3D
     godot::Timer* turn_timer = nullptr;
 
     const float speed;
+    const float walk_speed;
 
 protected:
     static void _bind_methods();

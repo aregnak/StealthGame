@@ -36,7 +36,7 @@ void EnemyController::_physics_process(double delta)
 
     if (ray->is_colliding())
     {
-        godot::print_line("Wall collision");
+        direction.x += 90;
     }
 
     double target_yaw = godot::Math::atan2(direction.x, direction.z);
@@ -48,12 +48,13 @@ void EnemyController::_physics_process(double delta)
     good_direction.y = current_rotation;
 
     enemy_skin->set_rotation(good_direction);
+
     godot::Vector3 ray_rotation = ray->get_rotation();
     ray_rotation.y = current_rotation;
     ray->set_rotation(ray_rotation);
 
-    velocity.x = direction.x * speed;
-    velocity.z = direction.z * speed;
+    // velocity.x = direction.x * speed;
+    // velocity.z = direction.z * speed;
 
     set_velocity(velocity);
     move_and_slide();

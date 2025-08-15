@@ -34,11 +34,11 @@ shadow_enabled = true
 [node name="Entities" type="Node3D" parent="."]
 
 [node name="PlayerController" parent="Entities" instance=ExtResource("1_s80kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.513952, 0.000998165, -0.856441)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.1212, 0.000602051, -0.16787)
 collision_mask = 15
 
 [node name="EnemyController" parent="Entities" instance=ExtResource("2_61dc2")]
-transform = Transform3D(0.0317422, 0, 0.999496, 0, 1, 0, -0.999496, 0, 0.0317422, 17.0471, 0.450814, 3.91927)
+transform = Transform3D(0.0317422, 0, 0.999496, 0, 1, 0, -0.999496, 0, 0.0317422, 13.9716, 0.450814, 3.90447)
 collision_layer = 8
 collision_mask = 15
 

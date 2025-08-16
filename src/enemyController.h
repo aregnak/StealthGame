@@ -11,6 +11,17 @@
 
 class EnemyController : public godot::CharacterBody3D
 {
+public:
+    enum class State
+    {
+        IDLE,
+        PATROL,
+        ALERT,
+        CHASE,
+
+    };
+
+private:
     GDCLASS(EnemyController, godot::CharacterBody3D);
 
     godot::AnimationPlayer* anim_player = nullptr;
@@ -20,9 +31,11 @@ class EnemyController : public godot::CharacterBody3D
     godot::Node3D* enemy_skin = nullptr;
     godot::RayCast3D* ray = nullptr;
     godot::Timer* turn_timer = nullptr;
+    State state;
 
-    const float speed;
+    const float run_speed;
     const float walk_speed;
+    double target_yaw = 0;
 
 protected:
     static void _bind_methods();

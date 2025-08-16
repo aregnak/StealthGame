@@ -35,7 +35,7 @@ private:
 
     const float run_speed;
     const float walk_speed;
-    double target_yaw = 0;
+    double target_yaw;
 
 protected:
     static void _bind_methods();

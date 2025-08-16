@@ -24,7 +24,7 @@ void EnemyController::_ready()
     ray = get_node<godot::RayCast3D>("Ray");
     turn_timer = get_node<godot::Timer>("TurnTimer");
 
-    state = State::IDLE;
+    state = State::PATROL;
 }
 
 void EnemyController::_physics_process(double delta)
@@ -46,7 +46,6 @@ void EnemyController::_physics_process(double delta)
 
     if (state == State::PATROL)
     {
-        target_yaw = 0;
         if (ray->is_colliding()) // && turn_timer->is_stopped())
         {
             // turn_timer->start();

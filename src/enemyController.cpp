@@ -44,42 +44,37 @@ void EnemyController::_physics_process(double delta)
 
     godot::Vector3 direction;
 
+    if (state == State::IDLE && turn_timer->is_stopped())
+    {
+        state = State::PATROL;
+    }
+
     if (state == State::PATROL)
     {
-        if (ray->is_colliding()) // && turn_timer->is_stopped())
+        if (ray->is_colliding() && turn_timer->is_stopped())
         {
-            // turn_timer->start();
-            // if (turn_timer->get_time_left() > 0.5)
-            // {
-            //     velocity.x = 0;
-            //     velocity.z = 0;
-            //     set_velocity(velocity);
-            //     move_and_slide();
-            // }
-            // else
-            // {
+            turn_timer->start();
+
             godot::Vector3 rotation = enemy_skin->get_rotation();
             target_yaw = rotation.y + Math_PI; // flip direction
-            // }
+
+            state = State::IDLE;
+            velocity.x = 0;
+            velocity.z = 0;
+            set_velocity(velocity);
+            move_and_slide();
         }
 
         godot::Basis basis = enemy_skin->get_global_transform().basis;
         direction = basis.get_column(2).normalized();
 
-        godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
-
-        rotation.y =
-            godot::Math::lerp_angle(static_cast<double>(rotation.y), target_yaw, delta * 15);
-
-        enemy_skin->set_rotation(rotation);
-
-        godot::Vector3 ray_rotation = ray->get_rotation();
-        ray_rotation.y = rotation.y;
-        ray->set_rotation(ray_rotation);
-
         float current_speed;
 
-        if (state == State::PATROL)
+        if (state == State::IDLE)
+        {
+            current_speed = 0;
+        }
+        else if (state == State::PATROL)
         {
             current_speed = walk_speed;
         }
@@ -91,9 +86,20 @@ void EnemyController::_physics_process(double delta)
         velocity.x = direction.x * current_speed;
         velocity.z = direction.z * current_speed;
     }
+
+    godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
+
+    rotation.y = godot::Math::lerp_angle(static_cast<double>(rotation.y), target_yaw, delta * 5);
+
+    enemy_skin->set_rotation(rotation);
+
+    godot::Vector3 ray_rotation = ray->get_rotation();
+    ray_rotation.y = rotation.y;
+    ray->set_rotation(ray_rotation);
     set_velocity(velocity);
     move_and_slide();
 
+    // Animation handling
     if (state == State::IDLE)
     {
         move_state_machine->travel("Idle");

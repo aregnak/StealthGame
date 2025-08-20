@@ -24,6 +24,10 @@ void EnemyController::_ready()
     ray = get_node<godot::RayCast3D>("Ray");
     turn_timer = get_node<godot::Timer>("TurnTimer");
 
+    fov = get_node<godot::Area3D>("Area3D");
+    fov->connect("body_entered", godot::Callable(this, "_on_body_entered"));
+    fov->connect("body_exited", godot::Callable(this, "_on_body_exited"));
+
     state = State::PATROL;
 }
 

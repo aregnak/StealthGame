@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/animation_node_state_machine_playback.hpp>
 #include <godot_cpp/classes/animation_node_one_shot.hpp>
 #include <godot_cpp/classes/timer.hpp>
+#include <godot_cpp/classes/area3d.hpp>
 
 class EnemyController : public godot::CharacterBody3D
 {
@@ -31,6 +32,9 @@ private:
     godot::Node3D* enemy_skin = nullptr;
     godot::RayCast3D* ray = nullptr;
     godot::Timer* turn_timer = nullptr;
+
+    godot::Area3D* fov = nullptr;
+
     State state;
 
     const float run_speed;

@@ -48,12 +48,18 @@ void EnemyController::_physics_process(double delta)
 
     godot::Vector3 direction;
 
-    if (state == State::IDLE && turn_timer->is_stopped())
+    if (state == State::IDLE)
     {
-        state = State::PATROL;
+        if (turn_timer->is_stopped())
+        {
+            state = State::PATROL;
+        }
+
+        velocity.x = 0;
+        velocity.z = 0;
     }
 
-    if (state == State::PATROL)
+    else if (state == State::PATROL)
     {
         if (ray->is_colliding() && turn_timer->is_stopped())
         {
@@ -63,10 +69,6 @@ void EnemyController::_physics_process(double delta)
             target_yaw = rotation.y + Math_PI; // flip direction
 
             state = State::IDLE;
-            velocity.x = 0;
-            velocity.z = 0;
-            set_velocity(velocity);
-            move_and_slide();
         }
 
         godot::Basis basis = enemy_skin->get_global_transform().basis;
@@ -89,6 +91,9 @@ void EnemyController::_physics_process(double delta)
 
         velocity.x = direction.x * current_speed;
         velocity.z = direction.z * current_speed;
+    }
+    else if (state == State::ALERT)
+    {
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -116,6 +121,10 @@ void EnemyController::_physics_process(double delta)
     else if (state == State::PATROL)
     {
         move_state_machine->travel("Walking");
+    }
+    else if (state == State::ALERT)
+    {
+        move_state_machine->travel("Alert");
     }
 }
 

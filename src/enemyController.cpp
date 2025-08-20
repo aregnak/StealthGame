@@ -97,9 +97,14 @@ void EnemyController::_physics_process(double delta)
 
     enemy_skin->set_rotation(rotation);
 
-    godot::Vector3 ray_rotation = ray->get_rotation();
-    ray_rotation.y = rotation.y;
-    ray->set_rotation(ray_rotation);
+    godot::Vector3 rot_buffer = ray->get_rotation();
+    rot_buffer.y = rotation.y;
+    ray->set_rotation(rot_buffer);
+
+    rot_buffer = fov->get_rotation();
+    rot_buffer.y = rotation.y;
+    fov->set_rotation(rot_buffer);
+
     set_velocity(velocity);
     move_and_slide();
 
@@ -114,8 +119,17 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered() { godot::print_line("Player in sight"); }
+void EnemyController::_on_body_entered(godot::Node* body) { godot::print_line("Player in sight"); }
 
-void EnemyController::_on_body_exited() { godot::print_line("Player out of sight"); }
+void EnemyController::_on_body_exited(godot::Node* body)
+{
+    godot::print_line("Player out of sight");
+}
 
-void EnemyController::_bind_methods() {}
+void EnemyController::_bind_methods()
+{
+    godot::ClassDB::bind_method(godot::D_METHOD("_on_body_entered", "body"),
+                                &EnemyController::_on_body_entered);
+    godot::ClassDB::bind_method(godot::D_METHOD("_on_body_exited", "body"),
+                                &EnemyController::_on_body_exited);
+}

@@ -48,8 +48,8 @@ public:
     void _ready() override;
     void _physics_process(double delta) override;
 
-    void _on_body_entered();
-    void _on_body_exited();
+    void _on_body_entered(godot::Node* body);
+    void _on_body_exited(godot::Node* body);
 
     EnemyController();
     ~EnemyController() = default;

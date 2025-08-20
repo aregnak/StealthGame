@@ -114,4 +114,8 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
+void EnemyController::_on_body_entered() { godot::print_line("Player in sight"); }
+
+void EnemyController::_on_body_exited() { godot::print_line("Player out of sight"); }
+
 void EnemyController::_bind_methods() {}

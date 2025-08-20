@@ -48,6 +48,9 @@ public:
     void _ready() override;
     void _physics_process(double delta) override;
 
+    void _on_body_entered();
+    void _on_body_exited();
+
     EnemyController();
     ~EnemyController() = default;
 };

@@ -102,10 +102,9 @@ void EnemyController::_physics_process(double delta)
 
         player_pos = player_node->get_global_position();
 
-        godot::Vector3 to_player = player_pos - enemy_skin->get_global_position();
+        godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
 
-        target_yaw =
-            godot::Math::atan2(static_cast<double>(to_player.z), static_cast<double>(to_player.x));
+        target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians

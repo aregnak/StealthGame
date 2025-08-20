@@ -15,6 +15,9 @@ EnemyController::EnemyController()
 
 void EnemyController::_ready()
 {
+    godot::Array player = get_tree()->get_nodes_in_group("Player");
+    player_node = Object::cast_to<PlayerController>(player[0]);
+
     anim_player = get_node<godot::AnimationPlayer>("Skin/AnimationPlayer");
     anim_tree = get_node<godot::AnimationTree>("Skin/AnimationTree");
     anim_tree->set_active(true);
@@ -94,6 +97,15 @@ void EnemyController::_physics_process(double delta)
     }
     else if (state == State::ALERT)
     {
+        velocity.x = 0;
+        velocity.z = 0;
+
+        player_pos = player_node->get_global_position();
+
+        godot::Vector3 to_player = player_pos - enemy_skin->get_global_position();
+
+        target_yaw =
+            godot::Math::atan2(static_cast<double>(to_player.z), static_cast<double>(to_player.x));
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -128,11 +140,16 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered(godot::Node* body) { godot::print_line("Player in sight"); }
+void EnemyController::_on_body_entered(godot::Node* body)
+{
+    godot::print_line("Player in sight");
+    state = State::ALERT;
+}
 
 void EnemyController::_on_body_exited(godot::Node* body)
 {
     godot::print_line("Player out of sight");
+    state = State::PATROL;
 }
 
 void EnemyController::_bind_methods()

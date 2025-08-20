@@ -1,5 +1,6 @@
 #pragma once
 
+#include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/ray_cast3d.hpp>
@@ -9,6 +10,9 @@
 #include <godot_cpp/classes/animation_node_one_shot.hpp>
 #include <godot_cpp/classes/timer.hpp>
 #include <godot_cpp/classes/area3d.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
+
+#include "playerController.h"
 
 class EnemyController : public godot::CharacterBody3D
 {
@@ -24,6 +28,10 @@ public:
 
 private:
     GDCLASS(EnemyController, godot::CharacterBody3D);
+
+    // Get player node from scene tree
+    PlayerController* player_node = nullptr;
+    godot::Vector3 player_pos;
 
     godot::AnimationPlayer* anim_player = nullptr;
     godot::AnimationTree* anim_tree = nullptr;

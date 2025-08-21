@@ -16,7 +16,10 @@ EnemyController::EnemyController()
 void EnemyController::_ready()
 {
     godot::Array player = get_tree()->get_nodes_in_group("Player");
-    player_node = Object::cast_to<PlayerController>(player[0]);
+    if (player.size() > 0)
+    {
+        player_node = Object::cast_to<PlayerController>(player[0]);
+    }
 
     anim_player = get_node<godot::AnimationPlayer>("Skin/AnimationPlayer");
     anim_tree = get_node<godot::AnimationTree>("Skin/AnimationTree");

@@ -27,7 +27,8 @@ void EnemyController::_ready()
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
 
     enemy_skin = get_node<godot::Node3D>("Skin");
-    ray = get_node<godot::RayCast3D>("Ray");
+    ray = get_node<godot::RayCast3D>("WallRay");
+    player_ray = get_node<godot::RayCast3D>("PlayerRay");
     turn_timer = get_node<godot::Timer>("TurnTimer");
 
     fov = get_node<godot::Area3D>("Area3D");
@@ -104,10 +105,26 @@ void EnemyController::_physics_process(double delta)
         velocity.z = 0;
 
         player_pos = player_node->get_global_position();
-
         godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
 
         target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
+
+        player_ray->set_target_position(player_pos);
+        // player_ray->force_raycast_update();
+
+        if (player_ray->is_colliding())
+        {
+            godot::Object* collider = player_ray->get_collider();
+
+            if (collider == player_node)
+            {
+                godot::print_line("player in sight");
+            }
+            else
+            {
+                godot::print_line("player obstructed");
+            }
+        }
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -144,13 +161,13 @@ void EnemyController::_physics_process(double delta)
 
 void EnemyController::_on_body_entered(godot::Node* body)
 {
-    godot::print_line("Player in sight");
+    // godot::print_line("Player in sight");
     state = State::ALERT;
 }
 
 void EnemyController::_on_body_exited(godot::Node* body)
 {
-    godot::print_line("Player out of sight");
+    // godot::print_line("Player out of sight");
     state = State::PATROL;
 }
 

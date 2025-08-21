@@ -39,6 +39,7 @@ private:
 
     godot::Node3D* enemy_skin = nullptr;
     godot::RayCast3D* ray = nullptr;
+    godot::RayCast3D* player_ray = nullptr;
     godot::Timer* turn_timer = nullptr;
 
     godot::Area3D* fov = nullptr;

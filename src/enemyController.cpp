@@ -109,8 +109,7 @@ void EnemyController::_physics_process(double delta)
 
         target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
 
-        player_ray->set_target_position(player_pos);
-        // player_ray->force_raycast_update();
+        player_ray->set_target_position(player_pos - enemy_skin->get_global_position());
 
         if (player_ray->is_colliding())
         {

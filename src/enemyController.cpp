@@ -101,15 +101,10 @@ void EnemyController::_physics_process(double delta)
     }
     else if (state == State::ALERT)
     {
-        velocity.x = 0;
-        velocity.z = 0;
-
         player_pos = player_node->get_global_position();
-        godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
+        godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
 
-        target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
-
-        player_ray->set_target_position(player_pos - enemy_skin->get_global_position());
+        player_ray->set_target_position(to_player);
 
         if (player_ray->is_colliding())
         {
@@ -117,11 +112,14 @@ void EnemyController::_physics_process(double delta)
 
             if (collider == player_node)
             {
-                godot::print_line("player in sight");
+                velocity.x = 0;
+                velocity.z = 0;
+
+                to_player.normalize();
+                target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
             }
             else
             {
-                godot::print_line("player obstructed");
             }
         }
     }
@@ -158,17 +156,9 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered(godot::Node* body)
-{
-    // godot::print_line("Player in sight");
-    state = State::ALERT;
-}
+void EnemyController::_on_body_entered(godot::Node* body) { state = State::ALERT; }
 
-void EnemyController::_on_body_exited(godot::Node* body)
-{
-    // godot::print_line("Player out of sight");
-    state = State::PATROL;
-}
+void EnemyController::_on_body_exited(godot::Node* body) { state = State::PATROL; }
 
 void EnemyController::_bind_methods()
 {

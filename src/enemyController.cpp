@@ -163,6 +163,20 @@ void EnemyController::_on_body_entered(godot::Node* body)
     }
 }
 
+// !!!!!
+// !!!!!
+// !!!!!
+// !!!!!
+
+// TODO: create new state, player in view (before alert)
+// TODO: create timer in alert state to chase/patrol, add visibility var
+// TODO: add attack animation/ attack range
+
+// !!!!!
+// !!!!!
+// !!!!!
+// !!!!!
+
 void EnemyController::_on_body_exited(godot::Node* body) { state = State::PATROL; }
 
 void EnemyController::_bind_methods()

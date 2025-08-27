@@ -50,6 +50,8 @@ private:
     const float walk_speed;
     double target_yaw;
 
+    bool player_in_area;
+
 protected:
     static void _bind_methods();
 

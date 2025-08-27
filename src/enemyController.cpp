@@ -10,6 +10,7 @@
 EnemyController::EnemyController()
     : run_speed(4.8f)
     , walk_speed(1.f)
+    , player_in_area(false)
 {
 }
 
@@ -81,6 +82,24 @@ void EnemyController::_physics_process(double delta)
         godot::Basis basis = enemy_skin->get_global_transform().basis;
         direction = basis.get_column(2).normalized();
 
+        if (player_in_area)
+        {
+            player_pos = player_node->get_global_position();
+            godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
+
+            player_ray->set_target_position(to_player);
+
+            if (player_ray->is_colliding())
+            {
+                godot::Object* collider = player_ray->get_collider();
+
+                if (collider == player_node)
+                {
+                    state = State::ALERT;
+                }
+            }
+        }
+
         float current_speed;
 
         if (state == State::IDLE)
@@ -101,12 +120,30 @@ void EnemyController::_physics_process(double delta)
     }
     else if (state == State::ALERT)
     {
-        velocity.x = 0;
-        velocity.z = 0;
-
-        player_pos = player_node->get_global_position().normalized();
+        player_pos = player_node->get_global_position();
         godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
-        target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
+
+        player_ray->set_target_position(to_player);
+
+        if (player_ray->is_colliding())
+        {
+            godot::Object* collider = player_ray->get_collider();
+
+            if (collider == player_node && player_in_area)
+            {
+                velocity.x = 0;
+                velocity.z = 0;
+
+                player_pos = player_node->get_global_position();
+                godot::Vector3 to_player =
+                    (player_pos - enemy_skin->get_global_position()).normalized();
+                target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
+            }
+            else
+            {
+                state = State::PATROL;
+            }
+        }
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -141,43 +178,13 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered(godot::Node* body)
-{
-    player_pos = player_node->get_global_position();
-    godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
-
-    player_ray->set_target_position(to_player);
-
-    if (player_ray->is_colliding())
-    {
-        godot::Object* collider = player_ray->get_collider();
-
-        if (collider == player_node)
-        {
-            state = State::ALERT;
-        }
-        else
-        {
-            return;
-        }
-    }
-}
-
-// !!!!!
-// !!!!!
-// !!!!!
-// !!!!!
+void EnemyController::_on_body_entered(godot::Node* body) { player_in_area = true; }
 
 // TODO: create new state, player in view (before alert)
 // TODO: create timer in alert state to chase/patrol, add visibility var
 // TODO: add attack animation/ attack range
 
-// !!!!!
-// !!!!!
-// !!!!!
-// !!!!!
-
-void EnemyController::_on_body_exited(godot::Node* body) { state = State::PATROL; }
+void EnemyController::_on_body_exited(godot::Node* body) { player_in_area = false; }
 
 void EnemyController::_bind_methods()
 {

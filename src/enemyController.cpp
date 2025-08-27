@@ -178,13 +178,29 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered(godot::Node* body) { player_in_area = true; }
+void EnemyController::_on_body_entered(godot::Node* body)
+{
+    player_pos = player_node->get_global_position();
+    godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
 
-// TODO: create new state, player in view (before alert)
-// TODO: create timer in alert state to chase/patrol, add visibility var
-// TODO: add attack animation/ attack range
+    player_ray->set_target_position(to_player);
 
-void EnemyController::_on_body_exited(godot::Node* body) { player_in_area = false; }
+    if (player_ray->is_colliding())
+    {
+        godot::Object* collider = player_ray->get_collider();
+
+        if (collider == player_node)
+        {
+            state = State::ALERT;
+        }
+        else
+        {
+            return;
+        }
+    }
+}
+
+void EnemyController::_on_body_exited(godot::Node* body) { state = State::PATROL; }
 
 void EnemyController::_bind_methods()
 {

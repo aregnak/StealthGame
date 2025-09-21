@@ -38,7 +38,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.1212, 0.000602051, -0.1678
 metadata/Player = false
 
 [node name="Enemy" parent="Entities" instance=ExtResource("2_61dc2")]
-transform = Transform3D(-0.0356845, 0, -0.999363, 0, 1, 0, 0.999363, 0, -0.0356845, 13.9716, 0.450814, 3.90447)
+transform = Transform3D(-0.0356845, 0, -0.999363, 0, 1, 0, 0.999363, 0, -0.0356845, 14.8181, 4.14486, 6.92455)
 collision_layer = 8
 collision_mask = 15
 
@@ -56,26 +56,23 @@ size = Vector3(40, 0.5, 40)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045557, -5.96046e-08, -0.0168819)
 shape = SubResource("BoxShape3D_s80kh")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5107, 1.46942, 6.12831)
+use_collision = true
+size = Vector3(1, 5, 12)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Environment/StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.56601, 2.99603, 6.19613)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_s80kh")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.56601, 2.49603, 6.19613)
 use_collision = true
 collision_layer = 2
 collision_mask = 9
 size = Vector3(1, 5, 12)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D2/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-shape = SubResource("BoxShape3D_s80kh")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Environment/StaticBody3D2/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.9447, -1.02661, -0.0678186)
-use_collision = true
-size = Vector3(1, 5, 12)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D2/CSGBox3D/CSGBox3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBox3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_s80kh")
 

@@ -56,12 +56,14 @@ size = Vector3(40, 0.5, 40)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045557, -5.96046e-08, -0.0168819)
 shape = SubResource("BoxShape3D_s80kh")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Environment"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5107, 1.46942, 6.12831)
 use_collision = true
+collision_layer = 2
+collision_mask = 9
 size = Vector3(1, 5, 12)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBox3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBox3D3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_s80kh")
 

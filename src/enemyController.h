@@ -41,6 +41,7 @@ private:
     godot::RayCast3D* ray = nullptr;
     godot::RayCast3D* player_ray = nullptr;
     godot::Timer* turn_timer = nullptr;
+    godot::Timer* alert_timer = nullptr;
 
     godot::Area3D* fov = nullptr;
 
@@ -51,6 +52,7 @@ private:
     double target_yaw;
 
     bool player_in_area;
+    bool player_seen;
 
 protected:
     static void _bind_methods();

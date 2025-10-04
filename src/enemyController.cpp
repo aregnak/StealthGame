@@ -11,6 +11,7 @@ EnemyController::EnemyController()
     : run_speed(4.8f)
     , walk_speed(1.f)
     , player_in_area(false)
+    , player_seen(false)
 {
 }
 
@@ -31,6 +32,7 @@ void EnemyController::_ready()
     ray = get_node<godot::RayCast3D>("WallRay");
     player_ray = get_node<godot::RayCast3D>("PlayerRay");
     turn_timer = get_node<godot::Timer>("TurnTimer");
+    alert_timer = get_node<godot::Timer>("AlertTimer");
 
     fov = get_node<godot::Area3D>("Area3D");
     fov->connect("body_entered", godot::Callable(this, "_on_body_entered"));
@@ -84,6 +86,7 @@ void EnemyController::_physics_process(double delta)
 
         if (player_in_area)
         {
+            // Checks if the player is in plain view
             player_pos = player_node->get_global_position();
             godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
 
@@ -95,28 +98,14 @@ void EnemyController::_physics_process(double delta)
 
                 if (collider == player_node)
                 {
+                    player_seen = false;
                     state = State::ALERT;
                 }
             }
         }
 
-        float current_speed;
-
-        if (state == State::IDLE)
-        {
-            current_speed = 0;
-        }
-        else if (state == State::PATROL)
-        {
-            current_speed = walk_speed;
-        }
-        else if (state == State::CHASE)
-        {
-            current_speed = run_speed;
-        }
-
-        velocity.x = direction.x * current_speed;
-        velocity.z = direction.z * current_speed;
+        velocity.x = direction.x * walk_speed;
+        velocity.z = direction.z * walk_speed;
     }
     else if (state == State::ALERT)
     {
@@ -138,12 +127,37 @@ void EnemyController::_physics_process(double delta)
                 godot::Vector3 to_player =
                     (player_pos - enemy_skin->get_global_position()).normalized();
                 target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
+
+                // While player is in plain view
+                if (!player_seen)
+                {
+                    alert_timer->start();
+                    player_seen = true;
+                }
+                else
+                {
+                    if (alert_timer->is_stopped())
+                    {
+                        state = State::CHASE;
+                        player_seen = false;
+                    }
+                }
             }
             else
             {
                 state = State::PATROL;
             }
         }
+    }
+    else if (state == State::CHASE)
+    {
+        player_pos = player_node->get_global_position();
+        godot::Vector3 direction = (player_pos - enemy_skin->get_global_position()).normalized();
+        godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
+        target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
+
+        velocity.x = direction.x * walk_speed;
+        velocity.z = direction.z * walk_speed;
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -178,9 +192,17 @@ void EnemyController::_physics_process(double delta)
     }
 }
 
-void EnemyController::_on_body_entered(godot::Node* body) { player_in_area = true; }
+void EnemyController::_on_body_entered(godot::Node* body)
+{
+    godot::print_line("in area");
+    player_in_area = true;
+}
 
-void EnemyController::_on_body_exited(godot::Node* body) { player_in_area = false; }
+void EnemyController::_on_body_exited(godot::Node* body)
+{
+    godot::print_line("out area");
+    player_in_area = false;
+}
 
 void EnemyController::_bind_methods()
 {

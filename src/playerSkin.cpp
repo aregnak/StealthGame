@@ -16,6 +16,7 @@ void PlayerSkin::_ready()
     anim_tree->set_active(true);
 
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
+    // dodge_anim = anim_tree->get("parameters/MoveBlend/DodgeAnim/playback");
 
     attack_one_shot = anim_tree->get("parameters/AttackOneShot");
     attack_state_machine = anim_tree->get("parameters/AttackStateMachine/playback");

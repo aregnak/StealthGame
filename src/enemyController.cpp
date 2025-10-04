@@ -84,6 +84,7 @@ void EnemyController::_physics_process(double delta)
 
         if (player_in_area)
         {
+            godot::print_line("Player is in area");
             player_pos = player_node->get_global_position();
             godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
 
@@ -91,10 +92,12 @@ void EnemyController::_physics_process(double delta)
 
             if (player_ray->is_colliding())
             {
+                godot::print_line("Player in vision");
                 godot::Object* collider = player_ray->get_collider();
 
                 if (collider == player_node)
                 {
+                    godot::print_line("Alert");
                     state = State::ALERT;
                 }
             }
@@ -180,24 +183,27 @@ void EnemyController::_physics_process(double delta)
 
 void EnemyController::_on_body_entered(godot::Node* body)
 {
-    player_pos = player_node->get_global_position();
-    godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
+    player_in_area = true;
+    // player_pos = player_node->get_global_position();
+    // godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position());
 
-    player_ray->set_target_position(to_player);
+    // player_ray->set_target_position(to_player);
 
-    if (player_ray->is_colliding())
-    {
-        godot::Object* collider = player_ray->get_collider();
+    // if (player_ray->is_colliding())
+    // {
+    //     godot::print_line("ALERT STATE");
+    //     godot::Object* collider = player_ray->get_collider();
 
-        if (collider == player_node)
-        {
-            state = State::ALERT;
-        }
-        else
-        {
-            return;
-        }
-    }
+    //     if (collider == player_node)
+    //     {
+    //         player_in_area = true;
+    //         state = State::ALERT;
+    //     }
+    //     else
+    //     {
+    //         return;
+    //     }
+    // }
 }
 
 void EnemyController::_on_body_exited(godot::Node* body) { state = State::PATROL; }

@@ -156,8 +156,8 @@ void EnemyController::_physics_process(double delta)
         godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
         target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
 
-        velocity.x = direction.x * walk_speed;
-        velocity.z = direction.z * walk_speed;
+        velocity.x = direction.x * run_speed;
+        velocity.z = direction.z * run_speed;
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians
@@ -189,6 +189,10 @@ void EnemyController::_physics_process(double delta)
     else if (state == State::ALERT)
     {
         move_state_machine->travel("Alert");
+    }
+    else if (state == State::CHASE)
+    {
+        move_state_machine->travel("Running");
     }
 }
 

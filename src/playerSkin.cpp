@@ -25,7 +25,13 @@ void PlayerSkin::_ready()
     second_attack_timer = get_node<godot::Timer>("SecondAttackTimer");
 }
 
-void PlayerSkin::_process() {}
+void PlayerSkin::_process(double delta)
+{
+    if (tween->is_valid()) // && !tween->is_running())
+    {
+        //     is_dodging = false;
+    }
+}
 
 void PlayerSkin::play_attack_anim()
 {
@@ -46,7 +52,7 @@ void PlayerSkin::play_attack_anim()
 
 void PlayerSkin::play_dodge_anim(bool forward)
 {
-    godot::Ref<godot::Tween> tween = get_tree()->create_tween();
+    tween = get_tree()->create_tween();
 
     float start_value = forward ? 0.0f : 1.0f;
     float end_value = forward ? 1.0f : 0.0f;

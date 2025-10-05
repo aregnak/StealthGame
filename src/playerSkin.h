@@ -20,6 +20,7 @@ class PlayerSkin : public godot::Node3D
     godot::Ref<godot::AnimationNodeOneShot> attack_one_shot;
     godot::Timer* second_attack_timer = nullptr;
     godot::SceneTree* tree;
+    godot::Ref<godot::Tween> tween;
 
     bool is_attacking;
     bool is_dodging;

@@ -12,6 +12,7 @@ PlayerController::PlayerController()
     , ground_friction(3.5f)
     , air_friction(1.f)
     , is_attacking(false)
+    , is_dodging(false)
 {
 }
 
@@ -82,6 +83,22 @@ void PlayerController::_physics_process(double delta)
     if (input->is_action_just_pressed("attack"))
     {
         player_skin->play_attack_anim();
+    }
+    else if (input->is_action_just_pressed("dodge"))
+    {
+        if (!player_skin->get_dodge_state())
+        {
+            player_skin->set_dodge_state(true);
+            player_skin->play_dodge_anim(true);
+        }
+        else
+        {
+            player_skin->play_dodge_anim(false);
+        }
+    }
+    else if (input->is_action_just_pressed("test"))
+    {
+        player_skin->play_dodge_anim(false);
     }
 
     // Animation logic

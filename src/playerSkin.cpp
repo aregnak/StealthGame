@@ -1,9 +1,11 @@
 #include "playerSkin.h"
 
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/method_tweener.hpp>
 
 PlayerSkin::PlayerSkin()
     : is_attacking(false)
+    , is_dodging(false)
 {
     //
 }
@@ -16,12 +18,14 @@ void PlayerSkin::_ready()
     anim_tree->set_active(true);
 
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
-    // dodge_anim = anim_tree->get("parameters/MoveBlend/DodgeAnim/playback");
+    // dodge_anim = anim_tree->get("parameters/DodgeAnim/playback");
 
     attack_one_shot = anim_tree->get("parameters/AttackOneShot");
     attack_state_machine = anim_tree->get("parameters/AttackStateMachine/playback");
     second_attack_timer = get_node<godot::Timer>("SecondAttackTimer");
 }
+
+void PlayerSkin::_process() {}
 
 void PlayerSkin::play_attack_anim()
 {
@@ -38,6 +42,33 @@ void PlayerSkin::play_attack_anim()
         anim_tree->set("parameters/AttackOneShot/request",
                        (int)godot::AnimationNodeOneShot::ONE_SHOT_REQUEST_FIRE);
     }
+}
+
+void PlayerSkin::play_dodge_anim(bool forward)
+{
+    godot::Ref<godot::Tween> tween = get_tree()->create_tween();
+
+    float start_value = forward ? 0.0f : 1.0f;
+    float end_value = forward ? 1.0f : 0.0f;
+    tween->tween_method(godot::Callable(this, "update_dodge"), start_value, end_value, 0.3f)
+        ->set_trans(godot::Tween::TRANS_SINE)
+        ->set_ease(godot::Tween::EASE_IN_OUT);
+}
+
+void PlayerSkin::update_dodge(float value)
+{
+    anim_tree->set("parameters/MoveBlend/blend_amount", value);
+}
+
+bool PlayerSkin::get_dodge_state()
+{
+    return is_dodging;
+    //
+}
+void PlayerSkin::set_dodge_state(bool value)
+{
+    is_dodging = value;
+    //
 }
 
 void PlayerSkin::set_move_state(godot::StringName state)
@@ -57,4 +88,9 @@ void PlayerSkin::_bind_methods()
     godot::ClassDB::bind_method(godot::D_METHOD("set_move_state", "state"),
                                 &PlayerSkin::set_move_state);
     godot::ClassDB::bind_method(godot::D_METHOD("attacking", "state"), &PlayerSkin::attacking);
+
+    godot::ClassDB::bind_method(godot::D_METHOD("play_dodge_anim", "forward"),
+                                &PlayerSkin::play_dodge_anim);
+    godot::ClassDB::bind_method(godot::D_METHOD("update_dodge", "value"),
+                                &PlayerSkin::update_dodge);
 }

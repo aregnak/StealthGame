@@ -20,7 +20,7 @@ class PlayerController : public godot::CharacterBody3D
     const float air_friction;
 
     bool is_attacking;
-    bool is_dodging;
+    bool _is_dodging;
 
 protected:
     static void _bind_methods();

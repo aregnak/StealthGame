@@ -19,8 +19,8 @@ class PlayerSkin : public godot::Node3D
     godot::Ref<godot::AnimationNodeStateMachinePlayback> attack_state_machine;
     godot::Ref<godot::AnimationNodeOneShot> attack_one_shot;
     godot::Timer* second_attack_timer = nullptr;
+    godot::Timer* dodge_timer = nullptr;
     godot::SceneTree* tree;
-    godot::Ref<godot::Tween> tween;
 
     bool is_attacking;
     bool is_dodging;
@@ -36,10 +36,10 @@ public:
     void play_dodge_anim(bool forward);
     void update_dodge(float value);
     bool get_dodge_state();
-    void set_dodge_state(bool value);
     void set_move_state(godot::StringName state);
 
     void attacking(bool state);
+    void dodging(bool state);
 
     PlayerSkin();
     ~PlayerSkin() = default;

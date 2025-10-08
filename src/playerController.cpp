@@ -86,19 +86,18 @@ void PlayerController::_physics_process(double delta)
     }
     else if (input->is_action_just_pressed("dodge"))
     {
+        godot::print_line("_is_dodging is true");
         _is_dodging = true;
         player_skin->play_dodge_anim(true);
         godot::print_line(player_skin->get_dodge_state());
     }
-    else if (input->is_action_just_pressed("test"))
-    {
-        player_skin->play_dodge_anim(false);
-    }
-
     if (_is_dodging && player_skin->get_dodge_state())
     {
+        godot::print_line(player_skin->get_dodge_state());
         player_skin->play_dodge_anim(false);
+        player_skin->set_dodge_state(false);
         _is_dodging = false;
+        godot::print_line("_is_dodging is true");
     }
 
     // Animation logic

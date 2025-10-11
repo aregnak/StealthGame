@@ -32,6 +32,7 @@ public:
 
     void play_attack_anim();
     void play_dodge_anim(bool forward);
+    void end_dodge_anim();
     void update_dodge(float value);
     bool get_dodge_state();
     void set_dodge_state(bool state);

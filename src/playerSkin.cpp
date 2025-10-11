@@ -47,7 +47,18 @@ void PlayerSkin::play_dodge_anim(bool forward)
 
     float start_value = forward ? 0.0f : 1.0f;
     float end_value = forward ? 1.0f : 0.0f;
-    tween->tween_method(godot::Callable(this, "update_dodge"), start_value, end_value, 0.2f)
+    tween->tween_method(godot::Callable(this, "update_dodge"), 0.0, 1.0, 0.2f)
+        ->set_trans(godot::Tween::TRANS_SINE)
+        ->set_ease(godot::Tween::EASE_IN_OUT);
+}
+
+void PlayerSkin::end_dodge_anim()
+{
+    godot::Ref<godot::Tween> tween = get_tree()->create_tween();
+
+    // float start_value = false ? 0.0f : 1.0f;
+    // float end_value = false ? 1.0f : 0.0f;
+    tween->tween_method(godot::Callable(this, "update_dodge"), 1.0, 0.0, 0.2f)
         ->set_trans(godot::Tween::TRANS_SINE)
         ->set_ease(godot::Tween::EASE_IN_OUT);
 }

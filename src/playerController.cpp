@@ -91,8 +91,8 @@ void PlayerController::_physics_process(double delta)
     }
     if (player_skin->get_dodge_state())
     {
-        player_skin->set_dodge_state(false);
-        player_skin->end_dodge_anim();
+        // player_skin->set_dodge_state(false);
+        // player_skin->end_dodge_anim();
     }
 
     // Animation logic

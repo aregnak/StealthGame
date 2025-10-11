@@ -19,6 +19,7 @@ class PlayerSkin : public godot::Node3D
     godot::Ref<godot::AnimationNodeStateMachinePlayback> attack_state_machine;
     godot::Ref<godot::AnimationNodeOneShot> attack_one_shot;
     godot::Timer* second_attack_timer = nullptr;
+    godot::Timer* dodge_timer = nullptr;
     godot::SceneTree* tree;
 
     bool is_attacking;
@@ -29,6 +30,7 @@ protected:
 
 public:
     void _ready() override;
+    void _process(double delta) override;
 
     void play_attack_anim();
     void play_dodge_anim(bool forward);

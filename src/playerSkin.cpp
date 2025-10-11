@@ -22,6 +22,19 @@ void PlayerSkin::_ready()
     attack_one_shot = anim_tree->get("parameters/AttackOneShot");
     attack_state_machine = anim_tree->get("parameters/AttackStateMachine/playback");
     second_attack_timer = get_node<godot::Timer>("SecondAttackTimer");
+
+    dodge_timer = get_node<godot::Timer>("DodgeTimer");
+}
+
+void PlayerSkin::_process(double delta)
+{
+    // godot::print_line(dodge_timer->get_time_left());
+    if (is_dodging && !dodge_timer->is_stopped())
+    {
+        is_dodging = false;
+        // end_dodge_anim();
+        godot::print_line("test");
+    }
 }
 
 void PlayerSkin::play_attack_anim()
@@ -47,9 +60,10 @@ void PlayerSkin::play_dodge_anim(bool forward)
 
     float start_value = forward ? 0.0f : 1.0f;
     float end_value = forward ? 1.0f : 0.0f;
-    tween->tween_method(godot::Callable(this, "update_dodge"), 0.0, 1.0, 0.2f)
+    tween->tween_method(godot::Callable(this, "update_dodge"), start_value, end_value, 0.2f)
         ->set_trans(godot::Tween::TRANS_SINE)
         ->set_ease(godot::Tween::EASE_IN_OUT);
+    is_dodging = true;
 }
 
 void PlayerSkin::end_dodge_anim()

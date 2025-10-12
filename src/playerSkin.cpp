@@ -17,7 +17,6 @@ void PlayerSkin::_ready()
     anim_tree->set_active(true);
 
     move_state_machine = anim_tree->get("parameters/MoveStateMachine/playback");
-    // dodge_anim = anim_tree->get("parameters/DodgeAnim/playback");
 
     attack_one_shot = anim_tree->get("parameters/AttackOneShot");
     attack_state_machine = anim_tree->get("parameters/AttackStateMachine/playback");
@@ -29,7 +28,7 @@ void PlayerSkin::_ready()
 void PlayerSkin::_process(double delta)
 {
     // Dodging logic, return to idle after dodge
-    godot::print_line(dodge_timer->get_time_left());
+    // godot::print_line(dodge_timer->get_time_left());
     if (is_dodging && dodge_timer->is_stopped())
     {
         is_dodging = false;
@@ -74,6 +73,12 @@ void PlayerSkin::play_dodge_anim(bool forward)
 void PlayerSkin::update_dodge(float value)
 {
     anim_tree->set("parameters/MoveBlend/blend_amount", value);
+}
+
+bool PlayerSkin::get_dodge_state()
+{
+    return is_dodging;
+    //
 }
 
 void PlayerSkin::set_move_state(godot::StringName state)

@@ -78,6 +78,7 @@ void PlayerController::_physics_process(double delta)
         velocity.x = godot::Math::move_toward(velocity.x, 0, float(speed * delta * friction));
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
     }
+    godot::Vector3 dash_dir = direction;
 
     // Input handling
     if (input->is_action_just_pressed("attack"))
@@ -87,6 +88,16 @@ void PlayerController::_physics_process(double delta)
     else if (input->is_action_just_pressed("dodge"))
     {
         player_skin->play_dodge_anim(true);
+        godot::Vector3 dash_dir = direction;
+        if (dash_dir == godot::Vector3())
+        {
+            dash_dir = player_skin->get_global_transform().basis.get_column(2).normalized();
+        }
+    }
+    if (player_skin->get_dodge_state())
+    {
+        velocity.x += dash_dir.x * 10.f;
+        velocity.z += dash_dir.z * 10.f;
     }
 
     // Animation logic

@@ -12,6 +12,7 @@ class PlayerController : public godot::CharacterBody3D
 
     CameraController* camera = nullptr;
     PlayerSkin* player_skin = nullptr;
+    godot::Timer* dodge_cooldown = nullptr;
 
     const float speed;
     const float jump_velocity;

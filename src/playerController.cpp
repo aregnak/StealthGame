@@ -19,6 +19,7 @@ void PlayerController::_ready()
 {
     camera = get_node<CameraController>("CameraController");
     player_skin = get_node<PlayerSkin>("PlayerSkin");
+    dodge_cooldown = get_node<godot::Timer>("DodgeCooldown");
 }
 
 void PlayerController::_physics_process(double delta)
@@ -88,11 +89,17 @@ void PlayerController::_physics_process(double delta)
     // This dodge method is not ideal, but it works for now.
     else if (input->is_action_just_pressed("dodge"))
     {
-        player_skin->play_dodge_anim(true);
-        godot::Vector3 dash_dir = direction;
-        if (dash_dir == godot::Vector3())
+        if (dodge_cooldown->is_stopped())
         {
-            dash_dir = player_skin->get_global_transform().basis.get_column(2).normalized();
+            dodge_cooldown->start();
+            player_skin->play_dodge_anim(true);
+            godot::Vector3 dash_dir = direction;
+            if (dash_dir == godot::Vector3())
+            {
+                dash_dir = player_skin->get_global_transform().basis.get_column(2).normalized();
+                velocity.x += dash_dir.x * 10.f;
+                velocity.z += dash_dir.z * 10.f;
+            }
         }
     }
     if (player_skin->get_dodge_state())

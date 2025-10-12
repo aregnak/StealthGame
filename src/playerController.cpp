@@ -85,6 +85,7 @@ void PlayerController::_physics_process(double delta)
     {
         player_skin->play_attack_anim();
     }
+    // This dodge method is not ideal, but it works for now.
     else if (input->is_action_just_pressed("dodge"))
     {
         player_skin->play_dodge_anim(true);

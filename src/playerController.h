@@ -14,6 +14,8 @@ class PlayerController : public godot::CharacterBody3D
     PlayerSkin* player_skin = nullptr;
     godot::Timer* dodge_cooldown = nullptr;
 
+    godot::Vector3 dash_dir;
+
     const float speed;
     const float jump_velocity;
 

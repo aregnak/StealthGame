@@ -28,11 +28,12 @@ void PlayerSkin::_ready()
 
 void PlayerSkin::_process(double delta)
 {
+    // Dodging logic, return to idle after dodge
     godot::print_line(dodge_timer->get_time_left());
     if (is_dodging && dodge_timer->is_stopped())
     {
         is_dodging = false;
-        end_dodge_anim();
+        play_dodge_anim(false);
     }
 }
 
@@ -55,7 +56,12 @@ void PlayerSkin::play_attack_anim()
 
 void PlayerSkin::play_dodge_anim(bool forward)
 {
-    dodge_timer->start();
+    // Check if dodge just started, then run animation
+    if (forward)
+    {
+        dodge_timer->start();
+        is_dodging = true;
+    }
     godot::Ref<godot::Tween> tween = get_tree()->create_tween();
 
     float start_value = forward ? 0.0f : 1.0f;
@@ -63,42 +69,11 @@ void PlayerSkin::play_dodge_anim(bool forward)
     tween->tween_method(godot::Callable(this, "update_dodge"), start_value, end_value, 0.2f)
         ->set_trans(godot::Tween::TRANS_SINE)
         ->set_ease(godot::Tween::EASE_IN_OUT);
-    is_dodging = true;
-}
-
-void PlayerSkin::end_dodge_anim()
-{
-    godot::Ref<godot::Tween> tween = get_tree()->create_tween();
-
-    // float start_value = false ? 0.0f : 1.0f;
-    // float end_value = false ? 1.0f : 0.0f;
-    tween->tween_method(godot::Callable(this, "update_dodge"), 1.0, 0.0, 0.2f)
-        ->set_trans(godot::Tween::TRANS_SINE)
-        ->set_ease(godot::Tween::EASE_IN_OUT);
 }
 
 void PlayerSkin::update_dodge(float value)
 {
     anim_tree->set("parameters/MoveBlend/blend_amount", value);
-}
-
-bool PlayerSkin::get_dodge_state()
-{
-    return is_dodging;
-    //
-}
-
-void PlayerSkin::set_dodge_state(bool state)
-{
-    is_dodging = state;
-    //
-}
-
-void PlayerSkin::dodging(bool state)
-{
-    godot::print_line("PlayerSkin::dodging called");
-    is_dodging = state;
-    //
 }
 
 void PlayerSkin::set_move_state(godot::StringName state)
@@ -123,6 +98,4 @@ void PlayerSkin::_bind_methods()
                                 &PlayerSkin::play_dodge_anim);
     godot::ClassDB::bind_method(godot::D_METHOD("update_dodge", "value"),
                                 &PlayerSkin::update_dodge);
-
-    godot::ClassDB::bind_method(godot::D_METHOD("dodging", "state"), &PlayerSkin::dodging);
 }

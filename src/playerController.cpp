@@ -12,7 +12,6 @@ PlayerController::PlayerController()
     , ground_friction(3.5f)
     , air_friction(1.f)
     , is_attacking(false)
-    , _is_dodging(false)
 {
 }
 
@@ -80,19 +79,14 @@ void PlayerController::_physics_process(double delta)
         velocity.z = godot::Math::move_toward(velocity.z, 0, float(speed * delta * friction));
     }
 
+    // Input handling
     if (input->is_action_just_pressed("attack"))
     {
         player_skin->play_attack_anim();
     }
     else if (input->is_action_just_pressed("dodge"))
     {
-        _is_dodging = true;
         player_skin->play_dodge_anim(true);
-    }
-    if (player_skin->get_dodge_state())
-    {
-        // player_skin->set_dodge_state(false);
-        // player_skin->end_dodge_anim();
     }
 
     // Animation logic

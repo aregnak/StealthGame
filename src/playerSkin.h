@@ -36,12 +36,9 @@ public:
     void play_dodge_anim(bool forward);
     void end_dodge_anim();
     void update_dodge(float value);
-    bool get_dodge_state();
-    void set_dodge_state(bool state);
     void set_move_state(godot::StringName state);
 
     void attacking(bool state);
-    void dodging(bool state);
 
     PlayerSkin();
     ~PlayerSkin() = default;

@@ -28,12 +28,11 @@ void PlayerSkin::_ready()
 
 void PlayerSkin::_process(double delta)
 {
-    // godot::print_line(dodge_timer->get_time_left());
-    if (is_dodging && !dodge_timer->is_stopped())
+    godot::print_line(dodge_timer->get_time_left());
+    if (is_dodging && dodge_timer->is_stopped())
     {
         is_dodging = false;
-        // end_dodge_anim();
-        godot::print_line("test");
+        end_dodge_anim();
     }
 }
 
@@ -56,6 +55,7 @@ void PlayerSkin::play_attack_anim()
 
 void PlayerSkin::play_dodge_anim(bool forward)
 {
+    dodge_timer->start();
     godot::Ref<godot::Tween> tween = get_tree()->create_tween();
 
     float start_value = forward ? 0.0f : 1.0f;

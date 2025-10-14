@@ -12,6 +12,7 @@ PlayerController::PlayerController()
     , ground_friction(3.5f)
     , air_friction(1.f)
     , is_attacking(false)
+    , dash_speed(6.f)
 {
 }
 
@@ -106,8 +107,8 @@ void PlayerController::_physics_process(double delta)
     // But this being out here is perfectly fine
     if (player_skin->get_dodge_state())
     {
-        velocity.x += dash_dir.x * 7.f;
-        velocity.z += dash_dir.z * 7.f;
+        velocity.x += dash_dir.x * dash_speed;
+        velocity.z += dash_dir.z * dash_speed;
     }
 
     // Animation logic

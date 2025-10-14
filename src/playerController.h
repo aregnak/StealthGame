@@ -21,6 +21,7 @@ class PlayerController : public godot::CharacterBody3D
 
     const float ground_friction;
     const float air_friction;
+    const float dash_speed;
 
     bool is_attacking;
 

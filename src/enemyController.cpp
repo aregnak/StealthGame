@@ -10,6 +10,7 @@
 EnemyController::EnemyController()
     : run_speed(4.8f)
     , walk_speed(1.f)
+    , attack_radius(2.f)
     , player_in_area(false)
     , player_seen(false)
 {
@@ -156,8 +157,16 @@ void EnemyController::_physics_process(double delta)
         godot::Vector3 to_player = (player_pos - enemy_skin->get_global_position()).normalized();
         target_yaw = godot::Math::atan2(to_player.z, -to_player.x);
 
-        velocity.x = direction.x * run_speed;
-        velocity.z = direction.z * run_speed;
+        if (get_position().distance_to(player_pos) > attack_radius)
+        {
+            velocity.x = direction.x * run_speed;
+            velocity.z = direction.z * run_speed;
+        }
+        else
+        {
+            velocity.x = 0;
+            velocity.z = 0;
+        }
     }
 
     godot::Vector3 rotation = enemy_skin->get_rotation(); // Euler angles in radians

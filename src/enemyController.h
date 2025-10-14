@@ -49,6 +49,8 @@ private:
 
     const float run_speed;
     const float walk_speed;
+    const float attack_radius;
+
     double target_yaw;
 
     bool player_in_area;

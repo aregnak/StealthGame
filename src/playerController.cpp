@@ -98,9 +98,7 @@ void PlayerController::_physics_process(double delta)
             // I get thundercuted into oblivion
             if (dash_dir == godot::Vector3())
             {
-                dash_dir = player_skin->get_global_transform().basis.get_column(2).normalized();
-                velocity.x += dash_dir.x * 10.f;
-                velocity.z += dash_dir.z * 10.f;
+                dash_dir = player_skin->get_global_transform().basis.get_column(2).normalized() * 2;
             }
         }
     }
@@ -108,8 +106,8 @@ void PlayerController::_physics_process(double delta)
     // But this being out here is perfectly fine
     if (player_skin->get_dodge_state())
     {
-        velocity.x += dash_dir.x * 10.f;
-        velocity.z += dash_dir.z * 10.f;
+        velocity.x += dash_dir.x * 7.f;
+        velocity.z += dash_dir.z * 7.f;
     }
 
     // Animation logic

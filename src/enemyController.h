@@ -53,6 +53,7 @@ private:
 
     double target_yaw;
 
+    bool attacking;
     bool player_in_area;
     bool player_seen;
 

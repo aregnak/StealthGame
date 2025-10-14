@@ -11,6 +11,7 @@ EnemyController::EnemyController()
     : run_speed(4.8f)
     , walk_speed(1.f)
     , attack_radius(2.f)
+    , attacking(false)
     , player_in_area(false)
     , player_seen(false)
 {
@@ -159,11 +160,13 @@ void EnemyController::_physics_process(double delta)
 
         if (get_position().distance_to(player_pos) > attack_radius)
         {
+            attacking = false;
             velocity.x = direction.x * run_speed;
             velocity.z = direction.z * run_speed;
         }
         else
         {
+            attacking = true;
             velocity.x = 0;
             velocity.z = 0;
         }
@@ -202,6 +205,10 @@ void EnemyController::_physics_process(double delta)
     else if (state == State::CHASE)
     {
         move_state_machine->travel("Running");
+        if (attacking)
+        {
+            move_state_machine->travel("Attack1");
+        }
     }
 }
 

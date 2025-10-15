@@ -208,16 +208,14 @@ void EnemyController::_physics_process(double delta)
         move_state_machine->travel("Running");
         if (attacking)
         {
+            // move_state_machine->travel("Idle");
             if (attack_timer->is_stopped())
             {
                 attack_timer->start();
-                godot::print_line("there");
-                move_state_machine->travel("Idle");
             }
             else
             {
                 move_state_machine->travel("Attack1");
-                godot::print_line("here");
             }
         }
     }

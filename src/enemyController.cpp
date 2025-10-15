@@ -35,6 +35,7 @@ void EnemyController::_ready()
     player_ray = get_node<godot::RayCast3D>("PlayerRay");
     turn_timer = get_node<godot::Timer>("TurnTimer");
     alert_timer = get_node<godot::Timer>("AlertTimer");
+    attack_timer = get_node<godot::Timer>("AttackTimer");
 
     fov = get_node<godot::Area3D>("Area3D");
     fov->connect("body_entered", godot::Callable(this, "_on_body_entered"));
@@ -207,7 +208,17 @@ void EnemyController::_physics_process(double delta)
         move_state_machine->travel("Running");
         if (attacking)
         {
-            move_state_machine->travel("Attack1");
+            if (attack_timer->is_stopped())
+            {
+                attack_timer->start();
+                godot::print_line("there");
+                move_state_machine->travel("Idle");
+            }
+            else
+            {
+                move_state_machine->travel("Attack1");
+                godot::print_line("here");
+            }
         }
     }
 }

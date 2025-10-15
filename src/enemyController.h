@@ -42,6 +42,7 @@ private:
     godot::RayCast3D* player_ray = nullptr;
     godot::Timer* turn_timer = nullptr;
     godot::Timer* alert_timer = nullptr;
+    godot::Timer* attack_timer = nullptr;
 
     godot::Area3D* fov = nullptr;
 
